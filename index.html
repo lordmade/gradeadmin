@@ -4,655 +4,658 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MTech Solutions | Admin Dashboard</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
-      --primary: #6c47ff;
-      --primary-glow: rgba(108, 71, 255, 0.25);
-      --accent: #00e5c3;
-      --accent-2: #ff6b47;
-      --bg: #0a0a0f;
-      --bg-2: #111118;
-      --surface: #16161f;
-      --surface-2: #1e1e2a;
-      --border: rgba(255,255,255,0.07);
-      --border-bright: rgba(108, 71, 255, 0.4);
-      --text: #f0f0f8;
-      --text-muted: #6b6b85;
-      --text-dim: #4a4a60;
-      --sidebar-w: 270px;
-      --radius: 18px;
-      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --primary: #0066ff;
+      --primary-dark: #0055dd;
+      --primary-light: #4d94ff;
+      --primary-glow: rgba(0,102,255,0.15);
+      --dark: #0f172a;
+      --gray: #64748b;
+      --gray-2: #94a3b8;
+      --light: #ffffff;
+      --light-2: #f8fafc;
+      --light-3: #f1f5f9;
+      --border: #e2e8f0;
+      --border-focus: #0066ff;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,0.08);
+      --shadow-md: 0 4px 16px rgba(15,23,42,0.08);
+      --shadow-lg: 0 20px 40px rgba(15,23,42,0.10);
+      --shadow-blue: 0 8px 32px rgba(0,102,255,0.18);
+      --sidebar-w: 260px;
+      --radius: 16px;
+      --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      background: var(--light-2);
+      color: var(--dark);
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Ambient background */
-    body::before {
-      content: '';
-      position: fixed;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(108,71,255,0.12) 0%, transparent 70%);
-      top: -200px; right: -100px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(0,229,195,0.07) 0%, transparent 70%);
-      bottom: 0; left: 150px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
     /* ===== SIDEBAR ===== */
     .sidebar {
       width: var(--sidebar-w);
-      background: var(--surface);
+      background: var(--dark);
       height: 100vh;
       position: fixed;
       left: 0; top: 0;
       display: flex;
       flex-direction: column;
       z-index: 1000;
-      border-right: 1px solid var(--border);
       transition: transform 0.35s var(--ease);
+      overflow-y: auto;
     }
 
-    .sidebar::before {
+    .sidebar::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      top: 0; right: 0;
+      width: 1px; height: 100%;
+      background: linear-gradient(180deg, rgba(0,102,255,0.5), transparent 60%);
     }
 
     .sidebar-header {
-      padding: 2rem 1.75rem 1.5rem;
+      padding: 1.75rem 1.5rem 1.25rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    .logo-mark {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--primary), #a47bff);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 0 20px var(--primary-glow);
+    .sidebar-logo img {
+      height: 34px;
+      filter: brightness(0) invert(1);
     }
 
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .logo-text span { color: var(--accent); }
-
-    .sidebar-label {
-      padding: 0 1.75rem;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+    .sidebar-badge {
+      margin-left: auto;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 0.6rem;
+      background: rgba(0,102,255,0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(0,102,255,0.3);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    .sidebar-section-label {
+      padding: 1.25rem 1.5rem 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #334155;
     }
 
     .sidebar-nav {
       flex: 1;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0.75rem;
     }
 
     .sidebar-nav a {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0.75rem 1rem;
-      color: var(--text-muted);
+      gap: 10px;
+      padding: 0.65rem 0.85rem;
+      color: #94a3b8;
       text-decoration: none;
+      font-size: 0.875rem;
       font-weight: 500;
-      font-size: 0.9rem;
-      border-radius: 12px;
+      border-radius: 10px;
       margin-bottom: 2px;
-      transition: all 0.2s var(--ease);
+      transition: all 0.18s var(--ease);
       position: relative;
-      overflow: hidden;
     }
 
-    .nav-icon {
-      width: 32px; height: 32px;
+    .sidebar-nav a .nav-ico {
+      width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
-      border-radius: 8px;
-      background: var(--surface-2);
-      font-size: 0.85rem;
-      transition: all 0.2s var(--ease);
+      border-radius: 7px;
+      background: rgba(255,255,255,0.04);
+      font-size: 0.78rem;
+      transition: all 0.18s var(--ease);
       flex-shrink: 0;
     }
 
-    .sidebar-nav a:hover { color: var(--text); }
-    .sidebar-nav a:hover .nav-icon { background: rgba(108,71,255,0.15); color: var(--primary); }
+    .sidebar-nav a:hover { color: #f1f5f9; }
+    .sidebar-nav a:hover .nav-ico { background: rgba(0,102,255,0.15); color: var(--primary-light); }
 
-    .sidebar-nav a.active { color: var(--text); }
-    .sidebar-nav a.active .nav-icon {
-      background: linear-gradient(135deg, var(--primary), #8f6fff);
+    .sidebar-nav a.active { color: #ffffff; }
+    .sidebar-nav a.active .nav-ico {
+      background: var(--primary);
       color: white;
-      box-shadow: 0 4px 12px var(--primary-glow);
+      box-shadow: 0 3px 10px rgba(0,102,255,0.35);
     }
 
     .sidebar-nav a.active::before {
       content: '';
       position: absolute;
-      left: 0; top: 20%; bottom: 20%;
+      left: -0.75rem; top: 25%; bottom: 25%;
       width: 3px;
       background: var(--primary);
       border-radius: 0 3px 3px 0;
     }
 
-    .divider {
+    .nav-divider {
       height: 1px;
-      background: var(--border);
-      margin: 1rem 1.75rem;
+      background: rgba(255,255,255,0.05);
+      margin: 0.6rem 0.75rem;
     }
 
     .sidebar-footer {
-      padding: 1.25rem 1.75rem;
-      border-top: 1px solid var(--border);
+      padding: 1rem 1.25rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
 
-    .user-pill {
+    .user-card {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: var(--surface-2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 12px;
-      padding: 0.6rem 0.9rem;
+      padding: 0.65rem 0.85rem;
     }
 
-    .user-avatar {
+    .user-av {
       width: 30px; height: 30px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
+      color: white;
+      flex-shrink: 0;
     }
 
-    .user-info { flex: 1; }
-    .user-name { font-size: 0.82rem; font-weight: 600; }
-    .user-role { font-size: 0.7rem; color: var(--text-muted); }
+    .user-av-info .uname { font-size: 0.8rem; font-weight: 600; color: #f1f5f9; }
+    .user-av-info .urole { font-size: 0.68rem; color: #475569; }
 
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      flex: 1;
-      margin-left: var(--sidebar-w);
-      padding: 2.5rem;
-      position: relative;
-      z-index: 1;
+    .online-dot {
+      margin-left: auto;
+      width: 7px; height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #22c55e;
     }
 
-    /* Mobile bar */
-    .mobile-top-bar {
+    /* ===== MOBILE ===== */
+    .mobile-bar {
       display: none;
-      background: var(--surface);
-      padding: 1rem 1.5rem;
+      background: var(--light);
+      padding: 0.85rem 1.25rem;
       position: sticky;
       top: 0; z-index: 999;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
     }
 
-    .mobile-logo {
-      font-family: 'Syne', sans-serif;
+    .mobile-brand {
+      font-family: 'Manrope', sans-serif;
       font-weight: 800;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+
+    .mobile-brand span { color: var(--primary); }
+
+    .mob-toggle {
+      background: var(--light-2);
+      border: 1px solid var(--border);
+      color: var(--dark);
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
       font-size: 1rem;
     }
 
-    .menu-toggle {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(15,23,42,0.5);
+      z-index: 998;
+      backdrop-filter: blur(3px);
     }
 
-    /* ===== HEADER ===== */
-    .page-header {
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      padding: 2.5rem 2.5rem 5rem;
+      position: relative;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-head {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 2.5rem;
-      animation: fadeDown 0.5s var(--ease) both;
+      margin-bottom: 2rem;
+      animation: fadein 0.45s var(--ease) both;
     }
 
-    .page-header h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
+    .page-head h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 1.75rem;
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
+      color: var(--dark);
+      line-height: 1.2;
     }
 
-    .page-header h1 em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .page-head p { color: var(--gray); font-size: 0.875rem; margin-top: 0.2rem; }
 
-    .page-header p { color: var(--text-muted); margin-top: 0.3rem; font-size: 0.9rem; }
-
-    .status-badge {
+    .live-chip {
       display: flex;
       align-items: center;
-      gap: 7px;
-      background: rgba(0,229,195,0.1);
-      border: 1px solid rgba(0,229,195,0.2);
+      gap: 6px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
       border-radius: 999px;
-      padding: 0.4rem 1rem;
-      font-size: 0.78rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      color: var(--accent);
+      color: #16a34a;
+      white-space: nowrap;
     }
 
-    .status-dot {
+    .live-dot {
       width: 6px; height: 6px;
-      background: var(--accent);
+      background: #22c55e;
       border-radius: 50%;
-      animation: pulse-dot 2s ease infinite;
+      animation: livepulse 1.8s ease infinite;
     }
 
-    @keyframes pulse-dot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,195,0.4); }
-      50% { box-shadow: 0 0 0 5px transparent; }
+    @keyframes livepulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      50% { box-shadow: 0 0 0 4px transparent; }
     }
+
+    @keyframes fadein { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideup { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== CARDS ===== */
     .card {
-      background: var(--surface);
+      background: var(--light);
       border-radius: var(--radius);
       border: 1px solid var(--border);
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
       overflow: hidden;
+      box-shadow: var(--shadow-sm);
       opacity: 0;
-      transform: translateY(24px);
-      animation: slideUp 0.55s var(--ease) forwards;
-      transition: border-color 0.2s;
+      animation: slideup 0.5s var(--ease) forwards;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .card:hover { border-color: rgba(108,71,255,0.2); }
+    .card:hover { border-color: #bfdbfe; box-shadow: var(--shadow-md); }
     .card:nth-child(1) { animation-delay: 0.05s; }
-    .card:nth-child(2) { animation-delay: 0.15s; }
-    .card:nth-child(3) { animation-delay: 0.25s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+    .card:nth-child(5) { animation-delay: 0.33s; }
 
-    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .card-header {
-      padding: 1.5rem 2rem;
+    .card-head {
+      padding: 1.25rem 1.75rem;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(135deg, var(--surface-2), var(--surface));
+      background: linear-gradient(135deg, var(--light-2), var(--light));
     }
 
-    .card-title-group {
+    .card-head-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .card-icon {
-      width: 42px; height: 42px;
-      border-radius: 12px;
+    .card-ico {
+      width: 40px; height: 40px;
+      border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      flex-shrink: 0;
     }
 
-    .icon-purple { background: rgba(108,71,255,0.15); color: var(--primary); }
-    .icon-cyan { background: rgba(0,229,195,0.12); color: var(--accent); }
-    .icon-orange { background: rgba(255,107,71,0.12); color: var(--accent-2); }
+    .ico-blue { background: rgba(0,102,255,0.08); color: var(--primary); }
+    .ico-green { background: rgba(34,197,94,0.08); color: #16a34a; }
+    .ico-orange { background: rgba(249,115,22,0.08); color: #ea580c; }
+    .ico-purple { background: rgba(124,58,237,0.08); color: #7c3aed; }
+    .ico-teal { background: rgba(20,184,166,0.08); color: #0d9488; }
 
-    .card-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
-    }
+    .card-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.975rem; color: var(--dark); }
+    .card-subtitle { font-size: 0.75rem; color: var(--gray-2); margin-top: 1px; }
 
-    .card-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
-
-    .card-body { padding: 2rem; }
+    .card-body { padding: 1.75rem; }
 
     /* ===== FORMS ===== */
-    .form-group { margin-bottom: 1.4rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { margin-bottom: 1.1rem; }
 
     label {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 0.5rem;
+      color: var(--gray);
+      margin-bottom: 0.4rem;
     }
 
     input[type="text"],
     input[type="number"],
-    textarea {
+    input[type="email"],
+    textarea,
+    select {
       width: 100%;
-      padding: 0.85rem 1rem;
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      transition: all 0.2s var(--ease);
+      padding: 0.75rem 0.95rem;
+      background: var(--light-2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      color: var(--dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      transition: all 0.18s var(--ease);
     }
 
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--primary);
-      background: rgba(108,71,255,0.04);
-      box-shadow: 0 0 0 3px var(--primary-glow);
+      background: var(--light);
+      box-shadow: 0 0 0 3px rgba(0,102,255,0.10);
     }
 
-    textarea { resize: vertical; min-height: 90px; }
-
-    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+    input::placeholder, textarea::placeholder { color: #cbd5e1; }
+    textarea { resize: vertical; min-height: 80px; }
 
     /* ===== GRID ===== */
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem; }
 
+    /* ===== ITEM BOXES ===== */
     .item-box {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      transition: all 0.2s var(--ease);
+      background: var(--light-2);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: all 0.18s var(--ease);
       position: relative;
     }
 
-    .item-box:hover {
-      border-color: rgba(108,71,255,0.25);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-    }
+    .item-box:hover { border-color: #bfdbfe; box-shadow: 0 4px 16px rgba(0,102,255,0.06); transform: translateY(-1px); }
 
-    .item-num {
+    .item-badge {
       position: absolute;
-      top: 1rem; right: 1rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.7rem;
+      top: 0.75rem; right: 0.85rem;
+      font-size: 0.62rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      background: var(--surface);
+      letter-spacing: 0.07em;
+      color: var(--gray);
+      background: white;
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 2px 7px;
+      padding: 2px 6px;
     }
 
     /* ===== FILE UPLOAD ===== */
-    .file-upload-wrapper { position: relative; margin-bottom: 1rem; }
+    .file-upload-wrapper { position: relative; margin-bottom: 0.85rem; }
     .file-upload-input { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 
     .file-upload-label {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 0.9rem;
-      background: transparent;
+      gap: 7px;
+      padding: 0.75rem;
+      background: white;
       border: 1.5px dashed var(--border);
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
+      font-size: 0.8rem;
       font-weight: 500;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      transition: all 0.2s var(--ease);
+      color: var(--gray);
+      transition: all 0.18s var(--ease);
     }
 
     .file-upload-label:hover {
       border-color: var(--primary);
       color: var(--primary);
-      background: rgba(108,71,255,0.05);
+      background: #eff6ff;
     }
 
-    .image-preview {
+    .img-preview {
       width: 100%;
-      height: 140px;
+      height: 130px;
       object-fit: cover;
-      border-radius: 10px;
-      margin-top: 0.75rem;
+      border-radius: 8px;
+      margin-top: 0.6rem;
       display: none;
       border: 1px solid var(--border);
     }
 
-    /* ===== SECTION SAVE BUTTON ===== */
-    .card-footer {
-      padding: 1.25rem 2rem;
+    /* ===== STAT PREVIEW ===== */
+    .stat-preview-num {
+      font-family: 'Manrope', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ===== SERVICE ICON PICKER ===== */
+    .icon-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 0.4rem;
+    }
+
+    .icon-opt {
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--gray);
+      background: white;
+      transition: all 0.15s;
+    }
+
+    .icon-opt:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
+    .icon-opt.selected { border-color: var(--primary); color: var(--primary); background: #eff6ff; box-shadow: 0 0 0 2px rgba(0,102,255,0.15); }
+
+    /* ===== CARD FOOTER / SAVE ===== */
+    .card-foot {
+      padding: 1rem 1.75rem;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--bg-2);
+      background: var(--light-2);
+      gap: 1rem;
     }
 
-    .save-hint {
-      font-size: 0.78rem;
-      color: var(--text-dim);
+    .foot-hint {
+      font-size: 0.75rem;
+      color: #94a3b8;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-save {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 0.65rem 1.6rem;
-      background: linear-gradient(135deg, var(--primary), #8a67ff);
+      gap: 7px;
+      padding: 0.6rem 1.4rem;
+      background: var(--primary);
       color: white;
       border: none;
       border-radius: 999px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.83rem;
       cursor: pointer;
-      transition: all 0.2s var(--ease);
-      box-shadow: 0 4px 16px var(--primary-glow);
-      position: relative;
-      overflow: hidden;
+      transition: all 0.18s var(--ease);
+      box-shadow: 0 4px 12px rgba(0,102,255,0.25);
+      white-space: nowrap;
     }
 
-    .btn-save::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .btn-save:hover::before { opacity: 1; }
-    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--primary-glow); }
+    .btn-save:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-blue); }
     .btn-save:active { transform: translateY(0); }
-
-    .btn-save.loading { pointer-events: none; opacity: 0.7; }
-    .btn-save.success { background: linear-gradient(135deg, #10b981, #34d399); box-shadow: 0 4px 16px rgba(16,185,129,0.3); }
-
-    /* ===== STATS BOX ===== */
-    .stat-box {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      transition: all 0.2s var(--ease);
-    }
-
-    .stat-box:hover { border-color: rgba(108,71,255,0.25); transform: translateY(-2px); }
-
-    .stat-number-preview {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      margin-bottom: 0.25rem;
-    }
+    .btn-save.loading { opacity: 0.65; pointer-events: none; }
+    .btn-save.success { background: #16a34a; box-shadow: 0 4px 12px rgba(22,163,74,0.3); }
+    .btn-save.error-state { background: #dc2626; box-shadow: 0 4px 12px rgba(220,38,38,0.3); }
 
     /* ===== TOAST ===== */
-    .toast {
+    #toast {
       position: fixed;
-      top: 2rem;
-      right: 2rem;
+      top: 1.5rem; right: 1.5rem;
       z-index: 9999;
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: var(--surface);
+      gap: 10px;
+      background: white;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.85rem;
       font-weight: 500;
-      font-size: 0.88rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      box-shadow: var(--shadow-lg);
       transform: translateX(120%);
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
       pointer-events: none;
+      min-width: 260px;
     }
 
-    .toast.show { transform: translateX(0); }
+    #toast.show { transform: translateX(0); }
+    #toast.success { border-left: 3px solid #22c55e; }
+    #toast.error { border-left: 3px solid #ef4444; }
 
-    .toast-icon {
-      width: 32px; height: 32px;
+    .toast-ico {
+      width: 28px; height: 28px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      flex-shrink: 0;
     }
 
-    .toast.success .toast-icon { background: rgba(16,185,129,0.15); color: #10b981; }
-    .toast.error .toast-icon { background: rgba(255,71,71,0.15); color: #ff4747; }
-    .toast.success { border-color: rgba(16,185,129,0.2); }
-    .toast.error { border-color: rgba(255,71,71,0.2); }
-
-    /* ===== OVERLAY ===== */
-    .sidebar-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 999;
-    }
+    #toast.success .toast-ico { background: #f0fdf4; color: #16a34a; }
+    #toast.error .toast-ico { background: #fef2f2; color: #dc2626; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
-      .sidebar.active { transform: translateX(0); }
-      .sidebar-overlay.active { display: block; }
-      .main-content { margin-left: 0; }
-      .mobile-top-bar { display: flex; }
+      .sidebar.open { transform: translateX(0); }
+      .overlay.open { display: block; }
+      .main { margin-left: 0; }
+      .mobile-bar { display: flex; }
     }
 
-    @media (max-width: 600px) {
-      .main-content { padding: 1.5rem 1rem; }
+    @media (max-width: 700px) {
+      .main { padding: 1.25rem 1rem 4rem; }
       .card-body { padding: 1.25rem; }
-      .card-header { padding: 1.25rem; }
-      .card-footer { padding: 1rem 1.25rem; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-      .page-header { flex-direction: column; gap: 0.75rem; }
+      .card-head { padding: 1rem 1.25rem; }
+      .card-foot { padding: 0.85rem 1.25rem; flex-direction: column; align-items: flex-start; }
+      .page-head { flex-direction: column; gap: 0.6rem; }
+      .form-row, .form-row.three { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- Sidebar Overlay -->
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <div class="logo-mark"><i class="fas fa-bolt"></i></div>
-    <div class="logo-text">MTech <span>Admin</span></div>
+    <div class="sidebar-logo">
+      <img src="https://raregradetech.com/wp-content/uploads/2025/01/Untitled-design-1024x1024.png" alt="MTech">
+    </div>
+    <span class="sidebar-badge">Admin</span>
   </div>
 
   <nav class="sidebar-nav">
-    <div class="sidebar-label">Navigation</div>
-
-    <a href="#hero-section" class="active" onclick="setActive(this)">
-      <div class="nav-icon"><i class="fas fa-home"></i></div>
-      Home
+    <div class="sidebar-section-label">Content</div>
+    <a href="#s-hero" class="active" onclick="setNav(this)">
+      <div class="nav-ico"><i class="fas fa-home"></i></div> Hero Section
+    </a>
+    <a href="#s-services" onclick="setNav(this)">
+      <div class="nav-ico"><i class="fas fa-th-large"></i></div> Services
+    </a>
+    <a href="#s-shop" onclick="setNav(this)">
+      <div class="nav-ico"><i class="fas fa-shopping-bag"></i></div> Hardware Shop
+    </a>
+    <a href="#s-stats" onclick="setNav(this)">
+      <div class="nav-ico"><i class="fas fa-chart-bar"></i></div> Statistics
+    </a>
+    <a href="#s-footer" onclick="setNav(this)">
+      <div class="nav-ico"><i class="fas fa-layer-group"></i></div> Footer
     </a>
 
+    <div class="nav-divider"></div>
+
+    <div class="sidebar-section-label">System</div>
+    <a href="#" onclick="window.location.reload(); return false;">
+      <div class="nav-ico"><i class="fas fa-sync-alt"></i></div> Reload Data
+    </a>
   </nav>
 
   <div class="sidebar-footer">
-    <div class="user-pill">
-      <div class="user-avatar">A</div>
-      <div class="user-info">
-        <div class="user-name">Administrator</div>
-        <div class="user-role">Full Access</div>
+    <div class="user-card">
+      <div class="user-av">A</div>
+      <div class="user-av-info">
+        <div class="uname">Administrator</div>
+        <div class="urole">Full Access</div>
       </div>
-      <i class="fas fa-circle" style="color:var(--accent);font-size:0.5rem;"></i>
+      <div class="online-dot"></div>
     </div>
   </div>
 </aside>
 
-<!-- Mobile Bar -->
-<div class="mobile-top-bar">
-  <div class="mobile-logo"><span style="color:var(--primary)">MTech</span> Admin</div>
-  <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+<div class="mobile-bar">
+  <div class="mobile-brand"><span>MTech</span> Admin</div>
+  <button class="mob-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 </div>
 
-<!-- Main Content -->
-<main class="main-content">
+<main class="main">
 
-  <div class="page-header">
+  <div class="page-head">
     <div>
-      <h1>Dashboard <em>Overview</em></h1>
-      <p>Manage and publish website content in real-time.</p>
+      <h1>Dashboard</h1>
+      <p>Edit and publish your website content in real-time.</p>
     </div>
-    <div class="status-badge">
-      <div class="status-dot"></div>
-      Live · Firebase Connected
+    <div class="live-chip">
+      <div class="live-dot"></div>
+      Firebase Connected
     </div>
   </div>
 
-  <!-- ===== HERO SECTION CARD ===== -->
-  <section id="hero-section" class="card">
-    <div class="card-header">
-      <div class="card-title-group">
-        <div class="card-icon icon-purple"><i class="fas fa-edit"></i></div>
+  <!-- ===== HERO ===== -->
+  <section id="s-hero" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-blue"><i class="fas fa-edit"></i></div>
         <div>
           <div class="card-title">Hero Section</div>
-          <div class="card-subtitle">Main landing page headline &amp; copy</div>
+          <div class="card-subtitle">Main landing headline, badge &amp; description</div>
         </div>
       </div>
     </div>
@@ -662,271 +665,490 @@
         <input type="text" id="heroBadge" placeholder="e.g. Innovation in Mokopane">
       </div>
       <div class="form-group">
-        <label>Main Title</label>
-        <input type="text" id="heroTitle" placeholder="Your powerful headline here">
+        <label>Main Title (use [blue] text[/blue] for gradient)</label>
+        <input type="text" id="heroTitle" placeholder="Power Your Business With Reliable IT">
       </div>
       <div class="form-group">
-        <label>Subtitle / Description</label>
-        <textarea id="heroDesc" placeholder="Supporting description text..."></textarea>
+        <label>Description</label>
+        <textarea id="heroDesc" placeholder="Supporting description shown under the headline..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Primary Button Text</label>
+          <input type="text" id="heroBtn1" placeholder="Get Started">
+        </div>
+        <div class="form-group">
+          <label>Secondary Button Text</label>
+          <input type="text" id="heroBtn2" placeholder="Shop Hardware">
+        </div>
       </div>
     </div>
-    <div class="card-footer">
-      <span class="save-hint"><i class="fas fa-info-circle"></i> Only hero content will be updated</span>
-      <button class="btn-save" onclick="saveSection('hero', this)">
-        <i class="fas fa-cloud-upload-alt"></i> Save Hero
-      </button>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates hero section only</span>
+      <button class="btn-save" onclick="saveSection('hero',this)"><i class="fas fa-cloud-upload-alt"></i> Save Hero</button>
     </div>
   </section>
 
-  <!-- ===== HARDWARE SHOP CARD ===== -->
-  <section id="hardware-section" class="card">
-    <div class="card-header">
-      <div class="card-title-group">
-        <div class="card-icon icon-cyan"><i class="fas fa-shopping-bag"></i></div>
+  <!-- ===== SERVICES ===== -->
+  <section id="s-services" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-purple"><i class="fas fa-th-large"></i></div>
+        <div>
+          <div class="card-title">Solutions / Services Cards</div>
+          <div class="card-subtitle">Edit the 4 service cards shown on the homepage</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-2" id="servicesContainer"></div>
+    </div>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates all 4 service cards</span>
+      <button class="btn-save" onclick="saveSection('services',this)"><i class="fas fa-cloud-upload-alt"></i> Save Services</button>
+    </div>
+  </section>
+
+  <!-- ===== SHOP ===== -->
+  <section id="s-shop" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-green"><i class="fas fa-shopping-bag"></i></div>
         <div>
           <div class="card-title">Hardware Shop</div>
-          <div class="card-subtitle">Product listings with images &amp; descriptions</div>
+          <div class="card-subtitle">Product cards with images uploaded via Cloudinary</div>
         </div>
       </div>
     </div>
     <div class="card-body">
       <div class="grid-2" id="shopContainer"></div>
     </div>
-    <div class="card-footer">
-      <span class="save-hint"><i class="fas fa-info-circle"></i> Images upload to Cloudinary automatically</span>
-      <button class="btn-save" onclick="saveSection('shop', this)">
-        <i class="fas fa-cloud-upload-alt"></i> Save Products
-      </button>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Images upload directly to Cloudinary</span>
+      <button class="btn-save" onclick="saveSection('shop',this)"><i class="fas fa-cloud-upload-alt"></i> Save Products</button>
     </div>
   </section>
 
-  <!-- ===== STATS CARD ===== -->
-  <section id="stats-section" class="card">
-    <div class="card-header">
-      <div class="card-title-group">
-        <div class="card-icon icon-orange"><i class="fas fa-chart-line"></i></div>
+  <!-- ===== STATS ===== -->
+  <section id="s-stats" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-orange"><i class="fas fa-chart-line"></i></div>
         <div>
           <div class="card-title">Statistics &amp; Results</div>
-          <div class="card-subtitle">Key metrics shown on the website</div>
+          <div class="card-subtitle">Numbers displayed in the stats counter section</div>
         </div>
       </div>
     </div>
     <div class="card-body">
-      <div class="grid-2" id="statsContainer"></div>
+      <div class="grid-3" id="statsContainer"></div>
     </div>
-    <div class="card-footer">
-      <span class="save-hint"><i class="fas fa-info-circle"></i> Only statistics will be updated</span>
-      <button class="btn-save" onclick="saveSection('stats', this)">
-        <i class="fas fa-cloud-upload-alt"></i> Save Stats
-      </button>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates stat counters only</span>
+      <button class="btn-save" onclick="saveSection('stats',this)"><i class="fas fa-cloud-upload-alt"></i> Save Stats</button>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <section id="s-footer" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-teal"><i class="fas fa-layer-group"></i></div>
+        <div>
+          <div class="card-title">Footer</div>
+          <div class="card-subtitle">Company info, contact details &amp; social links</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;">Company Description</div>
+      <div class="form-group">
+        <label>Footer About Text</label>
+        <textarea id="footerAbout" placeholder="Brief company description shown in footer brand column..."></textarea>
+      </div>
+
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;margin-top:0.5rem;">Contact Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" id="footerAddress" placeholder="Mokopane, Limpopo, South Africa">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" id="footerPhone" placeholder="+27 (0) 15 123 4567">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" id="footerEmail" placeholder="info@mtechsolutions.com">
+        </div>
+        <div class="form-group">
+          <label>Office Hours</label>
+          <input type="text" id="footerHours" placeholder="Mon - Fri: 08:00 - 17:00">
+        </div>
+      </div>
+
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;margin-top:0.5rem;">Social Links</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Facebook URL</label>
+          <input type="text" id="socialFb" placeholder="https://facebook.com/...">
+        </div>
+        <div class="form-group">
+          <label>Twitter / X URL</label>
+          <input type="text" id="socialTw" placeholder="https://twitter.com/...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>LinkedIn URL</label>
+          <input type="text" id="socialLi" placeholder="https://linkedin.com/...">
+        </div>
+        <div class="form-group">
+          <label>Instagram URL</label>
+          <input type="text" id="socialIg" placeholder="https://instagram.com/...">
+        </div>
+      </div>
+
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;margin-top:0.5rem;">Copyright Line</div>
+      <div class="form-group">
+        <label>Copyright Text</label>
+        <input type="text" id="footerCopyright" placeholder="© 2026 MTech Solutions. All rights reserved. South Africa.">
+      </div>
+
+    </div>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates footer on the main site</span>
+      <button class="btn-save" onclick="saveSection('footer',this)"><i class="fas fa-cloud-upload-alt"></i> Save Footer</button>
     </div>
   </section>
 
 </main>
 
-<!-- Toast Notification -->
-<div class="toast" id="toast">
-  <div class="toast-icon"><i class="fas fa-check"></i></div>
-  <span id="toast-msg">Saved successfully!</span>
+<!-- Toast -->
+<div id="toast">
+  <div class="toast-ico"><i class="fas fa-check"></i></div>
+  <span id="toast-msg">Saved!</span>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-  // ===== CONFIG =====
-  const firebaseConfig = {
-    apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
-    authDomain: "pinotp-d7ef5.firebaseapp.com",
-    databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
-    projectId: "pinotp-d7ef5",
-    storageBucket: "pinotp-d7ef5.firebasestorage.app",
-    messagingSenderId: "708458917827",
-    appId: "1:708458917827:web:375de278577df0adcf9776"
-  };
-  const CLOUD_NAME = "dv5bsbydu";
-  const UPLOAD_PRESET = "admin_tlaka";
+// ===== CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+  authDomain: "pinotp-d7ef5.firebaseapp.com",
+  databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+  projectId: "pinotp-d7ef5",
+  storageBucket: "pinotp-d7ef5.firebasestorage.app",
+  messagingSenderId: "708458917827",
+  appId: "1:708458917827:web:375de278577df0adcf9776"
+};
+const CLOUD_NAME = "dv5bsbydu";
+const UPLOAD_PRESET = "admin_tlaka";
 
-  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // ===== SIDEBAR =====
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').classList.remove('active');
-  }
-  function setActive(el) {
-    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-    el.classList.add('active');
-    if (window.innerWidth <= 1024) closeSidebar();
-  }
+// ===== SIDEBAR =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function setNav(el) {
+  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+  if (window.innerWidth <= 1024) closeSidebar();
+}
 
-  // ===== TOAST =====
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    const icon = t.querySelector('.toast-icon i');
-    document.getElementById('toast-msg').textContent = msg;
-    t.className = 'toast ' + type;
-    icon.className = type === 'success' ? 'fas fa-check' : 'fas fa-times';
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3200);
-  }
+// ===== TOAST =====
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const ico = t.querySelector('.toast-ico i');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = type;
+  ico.className = type === 'success' ? 'fas fa-check' : 'fas fa-times';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
 
-  // ===== BUILD SHOP UI =====
-  const shopContainer = document.getElementById('shopContainer');
-  for (let i = 0; i < 4; i++) {
-    shopContainer.innerHTML += `
-      <div class="item-box">
-        <div class="item-num">P${i + 1}</div>
-        <div class="file-upload-wrapper">
-          <input type="file" id="file${i}" class="file-upload-input" onchange="uploadImage(event, ${i})">
-          <label for="file${i}" class="file-upload-label">
-            <i class="fas fa-image"></i> Upload Image
-          </label>
-        </div>
-        <img id="shopImgPreview${i}" class="image-preview">
-        <input type="hidden" id="shopImgUrl${i}">
-        <div class="form-group"><label>Title</label><input type="text" id="shopTitle${i}" placeholder="Product name"></div>
-        <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
+// ===== SERVICE ICONS =====
+const SERVICE_ICONS = [
+  'fa-code','fa-globe','fa-shield-alt','fa-cloud',
+  'fa-laptop','fa-server','fa-network-wired','fa-database',
+  'fa-mobile-alt','fa-cogs','fa-headset','fa-chart-line'
+];
+
+// ===== BUILD SERVICES UI =====
+const servicesContainer = document.getElementById('servicesContainer');
+for (let i = 0; i < 4; i++) {
+  const iconPicker = SERVICE_ICONS.map(ic =>
+    `<div class="icon-opt${ic === 'fa-code' ? ' selected' : ''}" data-si="${i}" data-ic="${ic}" onclick="selectIcon(this,${i})"><i class="fas ${ic}"></i></div>`
+  ).join('');
+
+  servicesContainer.innerHTML += `
+    <div class="item-box">
+      <div class="item-badge">S${i+1}</div>
+      <div class="form-group" style="margin-top:0.2rem;">
+        <label>Icon</label>
+        <input type="hidden" id="svcIcon${i}" value="fa-code">
+        <div class="icon-picker" id="iconPicker${i}">${iconPicker}</div>
       </div>
-    `;
-  }
-
-  // ===== BUILD STATS UI =====
-  const statsContainer = document.getElementById('statsContainer');
-  const statColors = ['var(--primary)', 'var(--accent)', 'var(--accent-2)'];
-  for (let i = 0; i < 3; i++) {
-    statsContainer.innerHTML += `
-      <div class="stat-box">
-        <div class="stat-number-preview" id="statPreview${i}">—</div>
-        <div class="form-group">
-          <label>Value</label>
-          <input type="number" id="statNum${i}" placeholder="e.g. 500" oninput="document.getElementById('statPreview${i}').textContent = this.value || '—'">
-        </div>
-        <div class="form-group">
-          <label>Label</label>
-          <input type="text" id="statLabel${i}" placeholder="e.g. Happy Clients">
-        </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="svcTitle${i}" placeholder="Service name">
       </div>
-    `;
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="svcDesc${i}" placeholder="Short service description..." style="min-height:70px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Link Text</label>
+        <input type="text" id="svcLink${i}" placeholder="Learn more">
+      </div>
+    </div>
+  `;
+}
+
+function selectIcon(el, index) {
+  document.querySelectorAll(`#iconPicker${index} .icon-opt`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(`svcIcon${index}`).value = el.getAttribute('data-ic');
+}
+
+// ===== BUILD SHOP UI =====
+const shopContainer = document.getElementById('shopContainer');
+for (let i = 0; i < 4; i++) {
+  shopContainer.innerHTML += `
+    <div class="item-box">
+      <div class="item-badge">P${i+1}</div>
+      <div class="file-upload-wrapper">
+        <input type="file" id="shopFile${i}" class="file-upload-input" accept="image/*" onchange="uploadImage(event,${i},'shop')">
+        <label for="shopFile${i}" class="file-upload-label"><i class="fas fa-image"></i> Upload Image</label>
+      </div>
+      <img id="shopPreview${i}" class="img-preview">
+      <input type="hidden" id="shopImgUrl${i}">
+      <div class="form-group"><label>Title</label><input type="text" id="shopTitle${i}" placeholder="Product name"></div>
+      <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
+    </div>
+  `;
+}
+
+// ===== BUILD STATS UI =====
+const statsContainer = document.getElementById('statsContainer');
+for (let i = 0; i < 3; i++) {
+  statsContainer.innerHTML += `
+    <div class="item-box">
+      <div class="stat-preview-num" id="statPrev${i}">—</div>
+      <div class="form-group">
+        <label>Value / Number</label>
+        <input type="number" id="statNum${i}" placeholder="e.g. 350" oninput="document.getElementById('statPrev${i}').textContent=this.value||'—'">
+      </div>
+      <div class="form-group">
+        <label>Label</label>
+        <input type="text" id="statLabel${i}" placeholder="e.g. Clients Served">
+      </div>
+      <div class="form-group">
+        <label>Suffix (optional)</label>
+        <input type="text" id="statSuffix${i}" placeholder="e.g. % or +">
+      </div>
+    </div>
+  `;
+}
+
+// ===== LOAD DATA =====
+db.ref('websiteContent').once('value').then(snap => {
+  const d = snap.val();
+  if (!d) return;
+
+  // Hero
+  if (d.hero) {
+    document.getElementById('heroBadge').value = d.hero.badge || '';
+    document.getElementById('heroTitle').value = d.hero.title || '';
+    document.getElementById('heroDesc').value = d.hero.desc || '';
+    document.getElementById('heroBtn1').value = d.hero.btn1 || '';
+    document.getElementById('heroBtn2').value = d.hero.btn2 || '';
   }
 
-  // ===== LOAD DATA =====
-  db.ref('websiteContent').once('value').then((snap) => {
-    const data = snap.val();
-    if (!data) return;
-    document.getElementById('heroBadge').value = data.hero?.badge || '';
-    document.getElementById('heroTitle').value = data.hero?.title || '';
-    document.getElementById('heroDesc').value = data.hero?.desc || '';
+  // Services
+  if (d.services) {
+    d.services.forEach((svc, i) => {
+      if (!document.getElementById(`svcTitle${i}`)) return;
+      document.getElementById(`svcTitle${i}`).value = svc.title || '';
+      document.getElementById(`svcDesc${i}`).value = svc.desc || '';
+      document.getElementById(`svcLink${i}`).value = svc.link || '';
+      const icon = svc.icon || 'fa-code';
+      document.getElementById(`svcIcon${i}`).value = icon;
+      document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o => {
+        o.classList.toggle('selected', o.getAttribute('data-ic') === icon);
+      });
+    });
+  }
 
-    data.shop?.forEach((item, i) => {
+  // Shop
+  if (d.shop) {
+    d.shop.forEach((item, i) => {
+      if (!document.getElementById(`shopTitle${i}`)) return;
       document.getElementById(`shopTitle${i}`).value = item.title || '';
       document.getElementById(`shopDesc${i}`).value = item.desc || '';
       document.getElementById(`shopImgUrl${i}`).value = item.image || '';
       if (item.image) {
-        const p = document.getElementById(`shopImgPreview${i}`);
+        const p = document.getElementById(`shopPreview${i}`);
         p.src = item.image; p.style.display = 'block';
       }
     });
+  }
 
-    data.stats?.forEach((item, i) => {
-      document.getElementById(`statNum${i}`).value = item.num || '';
-      document.getElementById(`statLabel${i}`).value = item.label || '';
-      if (item.num) document.getElementById(`statPreview${i}`).textContent = item.num;
+  // Stats
+  if (d.stats) {
+    d.stats.forEach((s, i) => {
+      if (!document.getElementById(`statNum${i}`)) return;
+      document.getElementById(`statNum${i}`).value = s.num || '';
+      document.getElementById(`statLabel${i}`).value = s.label || '';
+      document.getElementById(`statSuffix${i}`).value = s.suffix || '';
+      if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
     });
-  });
+  }
 
-  // ===== UPLOAD IMAGE =====
-  async function uploadImage(event, index) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const label = document.querySelector(`label[for="file${index}"]`);
-    label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
-    try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
-      const data = await res.json();
+  // Footer
+  if (d.footer) {
+    document.getElementById('footerAbout').value = d.footer.about || '';
+    document.getElementById('footerAddress').value = d.footer.address || '';
+    document.getElementById('footerPhone').value = d.footer.phone || '';
+    document.getElementById('footerEmail').value = d.footer.email || '';
+    document.getElementById('footerHours').value = d.footer.hours || '';
+    document.getElementById('socialFb').value = d.footer.socialFb || '';
+    document.getElementById('socialTw').value = d.footer.socialTw || '';
+    document.getElementById('socialLi').value = d.footer.socialLi || '';
+    document.getElementById('socialIg').value = d.footer.socialIg || '';
+    document.getElementById('footerCopyright').value = d.footer.copyright || '';
+  }
+});
+
+// ===== UPLOAD IMAGE =====
+async function uploadImage(event, index, type) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const labelSel = type === 'shop' ? `label[for="shopFile${index}"]` : `label[for="heroFile"]`;
+  const label = document.querySelector(labelSel);
+  if (label) label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', UPLOAD_PRESET);
+  try {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
+    const data = await res.json();
+    if (type === 'shop') {
       document.getElementById(`shopImgUrl${index}`).value = data.secure_url;
-      const p = document.getElementById(`shopImgPreview${index}`);
+      const p = document.getElementById(`shopPreview${index}`);
       p.src = data.secure_url; p.style.display = 'block';
-      label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
-      setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Change Image'; }, 2000);
-    } catch (e) {
-      label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Upload failed';
-      setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Upload Image'; }, 2000);
     }
+    if (label) { label.innerHTML = '<i class="fas fa-check"></i> Uploaded!'; setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Change Image'; }, 2000); }
+  } catch(e) {
+    if (label) { label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed'; setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Upload Image'; }, 2000); }
   }
+}
 
-  // ===== SAVE SECTION =====
-  async function saveSection(section, btn) {
-    btn.classList.add('loading');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+// ===== SAVE SECTION =====
+const BTN_LABELS = { hero:'Save Hero', services:'Save Services', shop:'Save Products', stats:'Save Stats', footer:'Save Footer' };
 
-    try {
-      let payload = {};
-      const snap = await db.ref('websiteContent').once('value');
-      const existing = snap.val() || {};
+async function saveSection(section, btn) {
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+  try {
+    const snap = await db.ref('websiteContent').once('value');
+    const existing = snap.val() || {};
+    let patch = {};
 
-      if (section === 'hero') {
-        payload = {
-          ...existing,
-          hero: {
-            badge: document.getElementById('heroBadge').value,
-            title: document.getElementById('heroTitle').value,
-            desc: document.getElementById('heroDesc').value
-          }
-        };
-      } else if (section === 'shop') {
-        const shop = [];
-        for (let i = 0; i < 4; i++) {
-          shop.push({
-            title: document.getElementById(`shopTitle${i}`).value,
-            desc: document.getElementById(`shopDesc${i}`).value,
-            image: document.getElementById(`shopImgUrl${i}`).value
-          });
-        }
-        payload = { ...existing, shop };
-      } else if (section === 'stats') {
-        const stats = [];
-        for (let i = 0; i < 3; i++) {
-          stats.push({
-            num: document.getElementById(`statNum${i}`).value,
-            label: document.getElementById(`statLabel${i}`).value
-          });
-        }
-        payload = { ...existing, stats };
+    if (section === 'hero') {
+      patch.hero = {
+        badge: document.getElementById('heroBadge').value,
+        title: document.getElementById('heroTitle').value,
+        desc:  document.getElementById('heroDesc').value,
+        btn1:  document.getElementById('heroBtn1').value,
+        btn2:  document.getElementById('heroBtn2').value
+      };
+    }
+
+    if (section === 'services') {
+      patch.services = [];
+      for (let i = 0; i < 4; i++) {
+        patch.services.push({
+          icon:  document.getElementById(`svcIcon${i}`).value,
+          title: document.getElementById(`svcTitle${i}`).value,
+          desc:  document.getElementById(`svcDesc${i}`).value,
+          link:  document.getElementById(`svcLink${i}`).value
+        });
       }
-
-      await db.ref('websiteContent').set(payload);
-
-      btn.classList.remove('loading');
-      btn.classList.add('success');
-      btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
-      showToast(`${section.charAt(0).toUpperCase() + section.slice(1)} saved successfully!`);
-
-      setTimeout(() => {
-        btn.classList.remove('success');
-        const labels = { hero: 'Save Hero', shop: 'Save Products', stats: 'Save Stats' };
-        btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${labels[section]}`;
-      }, 2500);
-
-    } catch (err) {
-      btn.classList.remove('loading');
-      btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
-      showToast('Failed to save. Check console.', 'error');
-      setTimeout(() => {
-        const labels = { hero: 'Save Hero', shop: 'Save Products', stats: 'Save Stats' };
-        btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${labels[section]}`;
-      }, 2500);
-      console.error(err);
     }
+
+    if (section === 'shop') {
+      patch.shop = [];
+      for (let i = 0; i < 4; i++) {
+        patch.shop.push({
+          title: document.getElementById(`shopTitle${i}`).value,
+          desc:  document.getElementById(`shopDesc${i}`).value,
+          image: document.getElementById(`shopImgUrl${i}`).value
+        });
+      }
+    }
+
+    if (section === 'stats') {
+      patch.stats = [];
+      for (let i = 0; i < 3; i++) {
+        patch.stats.push({
+          num:    document.getElementById(`statNum${i}`).value,
+          label:  document.getElementById(`statLabel${i}`).value,
+          suffix: document.getElementById(`statSuffix${i}`).value
+        });
+      }
+    }
+
+    if (section === 'footer') {
+      patch.footer = {
+        about:     document.getElementById('footerAbout').value,
+        address:   document.getElementById('footerAddress').value,
+        phone:     document.getElementById('footerPhone').value,
+        email:     document.getElementById('footerEmail').value,
+        hours:     document.getElementById('footerHours').value,
+        socialFb:  document.getElementById('socialFb').value,
+        socialTw:  document.getElementById('socialTw').value,
+        socialLi:  document.getElementById('socialLi').value,
+        socialIg:  document.getElementById('socialIg').value,
+        copyright: document.getElementById('footerCopyright').value
+      };
+    }
+
+    await db.ref('websiteContent').set({ ...existing, ...patch });
+
+    btn.classList.remove('loading');
+    btn.classList.add('success');
+    btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+    showToast(`${section.charAt(0).toUpperCase()+section.slice(1)} saved successfully!`, 'success');
+    setTimeout(() => {
+      btn.classList.remove('success');
+      btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${BTN_LABELS[section]}`;
+    }, 2500);
+  } catch (err) {
+    btn.classList.remove('loading');
+    btn.classList.add('error-state');
+    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+    showToast('Save failed. Check console.', 'error');
+    setTimeout(() => {
+      btn.classList.remove('error-state');
+      btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${BTN_LABELS[section]}`;
+    }, 2500);
+    console.error(err);
   }
+}
 </script>
 </body>
 </html>
