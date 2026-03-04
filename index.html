@@ -4,10 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MTech Solutions | Admin Dashboard</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
   <style>
     :root {
       --primary: #3b82f6;
@@ -15,27 +13,22 @@
       --primary-light: #60a5fa;
       --primary-glow: rgba(59,130,246,0.25);
       --primary-glow-sm: rgba(59,130,246,0.10);
-
-      --bg:        #07090f;
-      --bg-2:      #0c0f18;
-      --surface:   #10141f;
+      --bg: #07090f;
+      --bg-2: #0c0f18;
+      --surface: #10141f;
       --surface-2: #151a27;
       --surface-3: #1b2233;
-
-      --border:       rgba(255,255,255,0.055);
+      --border: rgba(255,255,255,0.055);
       --border-hover: rgba(59,130,246,0.28);
       --border-focus: rgba(59,130,246,0.55);
-
-      --text:      #e2e8f4;
+      --text: #e2e8f4;
       --text-muted:#6b7d94;
-      --text-dim:  #344056;
-
-      --green:  #22c55e;
+      --text-dim: #344056;
+      --green: #22c55e;
       --orange: #f97316;
       --purple: #a855f7;
-      --teal:   #14b8a6;
-      --red:    #ef4444;
-
+      --teal: #14b8a6;
+      --red: #ef4444;
       --sidebar-w: 258px;
       --radius-lg: 18px;
       --radius-md: 13px;
@@ -43,10 +36,8 @@
       --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
@@ -55,7 +46,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     /* Ambient glows */
     body::before {
       content: '';
@@ -77,7 +67,6 @@
     }
     @keyframes driftA { 0%{transform:translate(0,0)} 100%{transform:translate(50px,70px)} }
     @keyframes driftB { 0%{transform:translate(0,0)} 100%{transform:translate(-35px,-55px)} }
-
     /* ══════════════════════════
        SIDEBAR
     ══════════════════════════ */
@@ -92,20 +81,17 @@
       transition: transform 0.35s var(--ease);
       overflow-y: auto; overflow-x: hidden;
     }
-
     .sidebar::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
-
     .sidebar-header {
       padding: 1.6rem 1.5rem 1.2rem;
       display: flex; align-items: center; gap: 10px;
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
-
     .sidebar-logo img {
       height: 31px;
       filter: brightness(0) invert(1);
@@ -113,22 +99,18 @@
       transition: opacity 0.2s;
     }
     .sidebar-logo img:hover { opacity: 1; }
-
     .admin-badge {
       margin-left: auto; flex-shrink: 0;
       font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
       background: rgba(59,130,246,0.14); color: var(--primary-light);
       border: 1px solid rgba(59,130,246,0.22); border-radius: 999px; padding: 2px 8px;
     }
-
     .sidebar-section-label {
       padding: 1.1rem 1.5rem 0.35rem;
       font-size: 0.6rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
       color: var(--text-dim); flex-shrink: 0;
     }
-
     .sidebar-nav { flex: 1; padding: 0.35rem 0.65rem; }
-
     .sidebar-nav a {
       display: flex; align-items: center; gap: 10px;
       padding: 0.58rem 0.85rem;
@@ -138,14 +120,12 @@
       transition: all 0.22s var(--ease);
       position: relative; overflow: hidden;
     }
-
     .sidebar-nav a::after {
       content: '';
       position: absolute; inset: 0;
       background: linear-gradient(90deg, var(--primary-glow-sm), transparent);
       opacity: 0; transition: opacity 0.22s; pointer-events: none;
     }
-
     .nav-ico {
       width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
@@ -153,13 +133,10 @@
       font-size: 0.76rem;
       transition: all 0.22s var(--ease); flex-shrink: 0; position: relative; z-index: 1;
     }
-
     .sidebar-nav a span { position: relative; z-index: 1; }
-
     .sidebar-nav a:hover { color: var(--text); transform: translateX(3px); }
     .sidebar-nav a:hover::after { opacity: 1; }
     .sidebar-nav a:hover .nav-ico { background: var(--primary-glow-sm); color: var(--primary-light); }
-
     .sidebar-nav a.active { color: #fff; }
     .sidebar-nav a.active::after { opacity: 1; }
     .sidebar-nav a.active .nav-ico {
@@ -172,14 +149,11 @@
       width: 3px; background: var(--primary);
       border-radius: 0 3px 3px 0; z-index: 2;
     }
-
     .nav-divider { height: 1px; background: var(--border); margin: 0.55rem 0.8rem; }
-
     .sidebar-footer {
       padding: 0.9rem 1.1rem 1.1rem;
       border-top: 1px solid var(--border); flex-shrink: 0;
     }
-
     .user-card {
       display: flex; align-items: center; gap: 10px;
       background: var(--surface-2); border: 1px solid var(--border);
@@ -187,17 +161,14 @@
       transition: all 0.22s var(--ease); cursor: default;
     }
     .user-card:hover { border-color: var(--border-hover); background: var(--surface-3); }
-
     .user-av {
       width: 28px; height: 28px;
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
       font-size: 0.68rem; font-weight: 700; color: #fff; flex-shrink: 0;
     }
-
     .uname { font-size: 0.76rem; font-weight: 600; color: var(--text); }
-    .urole  { font-size: 0.66rem; color: var(--text-dim); }
-
+    .urole { font-size: 0.66rem; color: var(--text-dim); }
     .online-dot {
       margin-left: auto; width: 7px; height: 7px;
       background: var(--green); border-radius: 50%; flex-shrink: 0;
@@ -205,7 +176,6 @@
       animation: breathe 2.5s ease infinite;
     }
     @keyframes breathe { 0%,100%{opacity:1} 50%{opacity:0.45} }
-
     /* ══════════════════════════
        MOBILE
     ══════════════════════════ */
@@ -217,7 +187,6 @@
     }
     .mobile-brand { font-family:'Manrope',sans-serif; font-weight:800; font-size:0.93rem; }
     .mobile-brand span { color: var(--primary); }
-
     .mob-toggle {
       background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
       width: 35px; height: 35px; border-radius: 8px;
@@ -226,12 +195,10 @@
       transition: all 0.2s var(--ease);
     }
     .mob-toggle:hover { border-color: var(--primary); color: var(--primary); }
-
     .overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(7,9,15,0.72); z-index: 998; backdrop-filter: blur(4px);
     }
-
     /* ══════════════════════════
        MAIN
     ══════════════════════════ */
@@ -240,19 +207,16 @@
       padding: 2.5rem 2.5rem 5rem;
       position: relative; z-index: 1;
     }
-
     .page-head {
       display: flex; align-items: flex-start; justify-content: space-between;
       margin-bottom: 2.2rem;
       animation: fadeDown 0.45s var(--ease) both;
     }
-
     .page-head h1 {
       font-family:'Manrope',sans-serif; font-size:1.72rem; font-weight:800;
       color: var(--text); line-height:1.15; letter-spacing:-0.025em;
     }
     .page-head p { color: var(--text-muted); font-size:0.86rem; margin-top:0.22rem; }
-
     .live-chip {
       display: flex; align-items: center; gap: 7px;
       background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.18);
@@ -261,16 +225,13 @@
       white-space: nowrap; transition: all 0.22s;
     }
     .live-chip:hover { background: rgba(34,197,94,0.12); }
-
     .live-dot {
       width: 6px; height: 6px; background: var(--green); border-radius: 50%;
       animation: livepulse 1.8s ease infinite;
     }
     @keyframes livepulse { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)} 50%{box-shadow:0 0 0 4px transparent} }
-
     @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes slideUp  { from{opacity:0;transform:translateY(22px)}  to{opacity:1;transform:translateY(0)} }
-
+    @keyframes slideUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
     /* ══════════════════════════
        CARDS
     ══════════════════════════ */
@@ -284,36 +245,30 @@
       transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
       position: relative;
     }
-
     .card::before {
       content: '';
       position: absolute; inset: 0; border-radius: var(--radius-lg);
       background: linear-gradient(135deg, rgba(59,130,246,0.03), transparent 55%);
       opacity: 0; transition: opacity 0.3s; pointer-events: none;
     }
-
     .card:hover {
       border-color: var(--border-hover);
       box-shadow: 0 0 0 1px rgba(59,130,246,0.07), 0 20px 55px rgba(0,0,0,0.5);
       transform: translateY(-2px);
     }
     .card:hover::before { opacity: 1; }
-
     .card:nth-child(1){animation-delay:0.04s}
     .card:nth-child(2){animation-delay:0.10s}
     .card:nth-child(3){animation-delay:0.16s}
     .card:nth-child(4){animation-delay:0.22s}
     .card:nth-child(5){animation-delay:0.28s}
-
     .card-head {
       padding: 1.2rem 1.7rem;
       border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
       background: linear-gradient(135deg, var(--surface-2), var(--surface));
     }
-
     .card-head-left { display: flex; align-items: center; gap: 12px; }
-
     .card-ico {
       width: 40px; height: 40px; border-radius: 11px;
       display: flex; align-items: center; justify-content: center;
@@ -321,31 +276,25 @@
       transition: all 0.25s var(--ease);
     }
     .card:hover .card-ico { transform: scale(1.1) rotate(-5deg); }
-
-    .ico-blue   { background: rgba(59,130,246,0.12);  color: var(--primary-light); }
-    .ico-green  { background: rgba(34,197,94,0.10);   color: var(--green); }
-    .ico-orange { background: rgba(249,115,22,0.10);  color: var(--orange); }
-    .ico-purple { background: rgba(168,85,247,0.10);  color: var(--purple); }
-    .ico-teal   { background: rgba(20,184,166,0.10);  color: var(--teal); }
-
-    .card-title    { font-family:'Manrope',sans-serif; font-weight:700; font-size:0.955rem; color:var(--text); letter-spacing:-0.01em; }
+    .ico-blue { background: rgba(59,130,246,0.12); color: var(--primary-light); }
+    .ico-green { background: rgba(34,197,94,0.10); color: var(--green); }
+    .ico-orange { background: rgba(249,115,22,0.10); color: var(--orange); }
+    .ico-purple { background: rgba(168,85,247,0.10); color: var(--purple); }
+    .ico-teal { background: rgba(20,184,166,0.10); color: var(--teal); }
+    .card-title { font-family:'Manrope',sans-serif; font-weight:700; font-size:0.955rem; color:var(--text); letter-spacing:-0.01em; }
     .card-subtitle { font-size:0.73rem; color:var(--text-muted); margin-top:2px; }
-
     .card-body { padding: 1.7rem; }
-
     /* ══════════════════════════
        FORMS
     ══════════════════════════ */
-    .form-row        { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-row.three  { grid-template-columns: 1fr 1fr 1fr; }
-    .form-group      { margin-bottom: 1rem; }
-
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { margin-bottom: 1rem; }
     label {
       display: block; font-size: 0.69rem; font-weight: 600;
       letter-spacing: 0.07em; text-transform: uppercase;
       color: var(--text-dim); margin-bottom: 0.38rem;
     }
-
     input[type="text"],
     input[type="number"],
     input[type="email"],
@@ -357,21 +306,16 @@
       font-family: 'Inter', sans-serif; font-size: 0.865rem;
       transition: all 0.22s var(--ease);
     }
-
     input:hover, textarea:hover, select:hover { border-color: rgba(59,130,246,0.18); }
-
     input:focus, textarea:focus, select:focus {
       outline: none; border-color: var(--primary);
       background: rgba(59,130,246,0.04);
       box-shadow: 0 0 0 3px var(--primary-glow);
     }
-
     input::placeholder, textarea::placeholder { color: var(--text-dim); }
     textarea { resize: vertical; min-height: 78px; }
-
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(282px,1fr)); gap: 1.1rem; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px,1fr)); gap: 1.1rem; }
-
     /* ── Item Boxes ── */
     .item-box {
       background: var(--bg-2); border: 1.5px solid var(--border);
@@ -388,18 +332,15 @@
       box-shadow: 0 10px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.08);
     }
     .item-box:hover::before { opacity: 1; }
-
     .item-badge {
       position:absolute; top:0.7rem; right:0.8rem;
       font-size:0.59rem; font-weight:700; letter-spacing:0.08em;
       color:var(--text-dim); background:var(--surface);
       border:1px solid var(--border); border-radius:5px; padding:2px 6px;
     }
-
     /* ── File Upload ── */
     .file-upload-wrapper { position:relative; margin-bottom:0.82rem; }
     .file-upload-input { width:0.1px; height:0.1px; opacity:0; overflow:hidden; position:absolute; z-index:-1; }
-
     .file-upload-label {
       display:flex; align-items:center; justify-content:center; gap:7px;
       padding:0.7rem; background:transparent;
@@ -411,7 +352,6 @@
       border-color:var(--primary); color:var(--primary-light);
       background:rgba(59,130,246,0.06); transform:scale(1.01);
     }
-
     .img-preview {
       width:100%; height:128px; object-fit:cover;
       border-radius:8px; margin-top:0.58rem; display:none;
@@ -419,7 +359,6 @@
       transition:all 0.28s var(--ease);
     }
     .img-preview:hover { transform:scale(1.025); border-color:var(--border-hover); }
-
     /* ── Stat Preview ── */
     .stat-preview-num {
       font-family:'Manrope',sans-serif; font-size:2rem; font-weight:800;
@@ -429,10 +368,8 @@
       transition:transform 0.22s var(--ease);
     }
     .item-box:hover .stat-preview-num { transform:scale(1.06); }
-
     /* ── Icon Picker ── */
     .icon-picker { display:flex; flex-wrap:wrap; gap:5px; margin-top:0.38rem; }
-
     .icon-opt {
       width:33px; height:33px;
       border:1.5px solid var(--border); border-radius:7px;
@@ -442,7 +379,6 @@
     }
     .icon-opt:hover { border-color:var(--primary); color:var(--primary-light); background:var(--primary-glow-sm); transform:translateY(-2px) scale(1.1); }
     .icon-opt.selected { border-color:var(--primary); color:var(--primary-light); background:var(--primary-glow-sm); box-shadow:0 0 0 2px var(--primary-glow); }
-
     /* ── Section Sub-labels ── */
     .section-sub {
       font-size:0.68rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
@@ -450,7 +386,6 @@
       border-bottom:1px solid var(--border); margin-top:0.75rem;
     }
     .section-sub:first-child { margin-top:0; }
-
     /* ══════════════════════════
        CARD FOOTER
     ══════════════════════════ */
@@ -459,9 +394,7 @@
       display:flex; align-items:center; justify-content:space-between;
       background:var(--surface-2); gap:1rem;
     }
-
     .foot-hint { font-size:0.73rem; color:var(--text-dim); display:flex; align-items:center; gap:5px; }
-
     .btn-save {
       display:inline-flex; align-items:center; gap:7px;
       padding:0.56rem 1.35rem;
@@ -483,7 +416,6 @@
     .btn-save.loading { opacity:0.6; pointer-events:none; }
     .btn-save.success { background:#15803d; box-shadow:0 4px 14px rgba(21,128,61,0.38); }
     .btn-save.error-state { background:#b91c1c; box-shadow:0 4px 14px rgba(185,28,28,0.38); }
-
     /* ══════════════════════════
        TOAST
     ══════════════════════════ */
@@ -500,16 +432,14 @@
     }
     #toast.show { transform:translateX(0); }
     #toast.success { border-left:3px solid var(--green); }
-    #toast.error   { border-left:3px solid var(--red);   }
-
+    #toast.error { border-left:3px solid var(--red); }
     .toast-ico {
       width:28px; height:28px; border-radius:50%;
       display:flex; align-items:center; justify-content:center;
       font-size:0.77rem; flex-shrink:0;
     }
-    #toast.success .toast-ico { background:rgba(34,197,94,0.12);  color:var(--green); }
-    #toast.error   .toast-ico { background:rgba(239,68,68,0.12);   color:var(--red);   }
-
+    #toast.success .toast-ico { background:rgba(34,197,94,0.12); color:var(--green); }
+    #toast.error .toast-ico { background:rgba(239,68,68,0.12); color:var(--red); }
     /* ══════════════════════════
        RESPONSIVE
     ══════════════════════════ */
@@ -531,9 +461,7 @@
   </style>
 </head>
 <body>
-
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-logo">
@@ -541,7 +469,6 @@
     </div>
     <span class="admin-badge">Admin</span>
   </div>
-
   <nav class="sidebar-nav">
     <div class="sidebar-section-label">Content</div>
     <a href="#s-hero" class="active" onclick="setNav(this)">
@@ -565,7 +492,6 @@
       <div class="nav-ico"><i class="fas fa-sync-alt"></i></div><span>Reload Data</span>
     </a>
   </nav>
-
   <div class="sidebar-footer">
     <div class="user-card">
       <div class="user-av">A</div>
@@ -574,14 +500,11 @@
     </div>
   </div>
 </aside>
-
 <div class="mobile-bar">
   <div class="mobile-brand"><span>MTech</span> Admin</div>
   <button class="mob-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 </div>
-
 <main class="main">
-
   <div class="page-head">
     <div>
       <h1>Dashboard</h1>
@@ -595,7 +518,7 @@
     <div class="card-head">
       <div class="card-head-left">
         <div class="card-ico ico-blue"><i class="fas fa-edit"></i></div>
-        <div><div class="card-title">Hero Section</div><div class="card-subtitle">Main landing headline, badge &amp; description</div></div>
+        <div><div class="card-title">Hero Section</div><div class="card-subtitle">Main landing headline, badge & description</div></div>
       </div>
     </div>
     <div class="card-body">
@@ -615,6 +538,15 @@
         <div class="form-group"><label>Primary Button Text</label><input type="text" id="heroBtn1" placeholder="Get Started"></div>
         <div class="form-group"><label>Secondary Button Text</label><input type="text" id="heroBtn2" placeholder="Shop Hardware"></div>
       </div>
+
+      <!-- Added: Hero Background Image Upload -->
+      <div class="section-sub" style="margin-top:1.4rem;">Background Image</div>
+      <div class="file-upload-wrapper">
+        <input type="file" id="heroBgFile" class="file-upload-input" accept="image/*" onchange="uploadImage(event,'heroBg')">
+        <label for="heroBgFile" class="file-upload-label" id="heroBgLabel"><i class="fas fa-image"></i> Upload Background Image</label>
+      </div>
+      <img id="heroBgPreview" class="img-preview">
+      <input type="hidden" id="heroBgUrl">
     </div>
     <div class="card-foot">
       <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates hero section only</span>
@@ -661,7 +593,7 @@
     <div class="card-head">
       <div class="card-head-left">
         <div class="card-ico ico-orange"><i class="fas fa-chart-line"></i></div>
-        <div><div class="card-title">Statistics &amp; Results</div><div class="card-subtitle">Numbers displayed in the stats counter section</div></div>
+        <div><div class="card-title">Statistics & Results</div><div class="card-subtitle">Numbers displayed in the stats counter section</div></div>
       </div>
     </div>
     <div class="card-body">
@@ -678,7 +610,7 @@
     <div class="card-head">
       <div class="card-head-left">
         <div class="card-ico ico-teal"><i class="fas fa-layer-group"></i></div>
-        <div><div class="card-title">Footer</div><div class="card-subtitle">Company info, contact details &amp; social links</div></div>
+        <div><div class="card-title">Footer</div><div class="card-subtitle">Company info, contact details & social links</div></div>
       </div>
     </div>
     <div class="card-body">
@@ -716,7 +648,6 @@
       <button class="btn-save" onclick="saveSection('footer',this)"><i class="fas fa-cloud-upload-alt"></i> Save Footer</button>
     </div>
   </section>
-
 </main>
 
 <div id="toast">
@@ -746,10 +677,12 @@ function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('open');
 }
+
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
+
 function setNav(el) {
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
   el.classList.add('active');
@@ -827,141 +760,213 @@ for (let i = 0; i < 3; i++) {
     </div>`;
 }
 
-// Load data
+// ────────────────────────────────────────────────
+// Image Upload Function (used by both hero and shop)
+// ────────────────────────────────────────────────
+async function uploadImage(event, target) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  let label, preview, urlInput;
+
+  if (target === 'heroBg') {
+    label = document.getElementById('heroBgLabel');
+    preview = document.getElementById('heroBgPreview');
+    urlInput = document.getElementById('heroBgUrl');
+  } else {
+    // shop
+    label = document.querySelector(`label[for="shopFile${target}"]`);
+    preview = document.getElementById(`shopPreview${target}`);
+    urlInput = document.getElementById(`shopImgUrl${target}`);
+  }
+
+  label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', UPLOAD_PRESET);
+
+  try {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: fd
+    });
+    const data = await res.json();
+    if (!data.secure_url) throw new Error("No secure_url returned");
+
+    urlInput.value = data.secure_url;
+    preview.src = data.secure_url;
+    preview.style.display = 'block';
+
+    label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
+    setTimeout(() => {
+      label.innerHTML = target === 'heroBg' 
+        ? '<i class="fas fa-image"></i> Change Background Image'
+        : '<i class="fas fa-image"></i> Change Image';
+    }, 2200);
+  } catch (e) {
+    console.error(e);
+    label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed';
+    setTimeout(() => {
+      label.innerHTML = target === 'heroBg' 
+        ? '<i class="fas fa-image"></i> Upload Background Image'
+        : '<i class="fas fa-image"></i> Upload Image';
+    }, 2200);
+  }
+}
+
+// ────────────────────────────────────────────────
+// Load existing data
+// ────────────────────────────────────────────────
 db.ref('websiteContent').once('value').then(snap => {
   const d = snap.val();
   if (!d) return;
+
   if (d.hero) {
     document.getElementById('heroBadge').value = d.hero.badge || '';
     document.getElementById('heroTitle').value = d.hero.title || '';
-    document.getElementById('heroDesc').value  = d.hero.desc  || '';
-    document.getElementById('heroBtn1').value  = d.hero.btn1  || '';
-    document.getElementById('heroBtn2').value  = d.hero.btn2  || '';
+    document.getElementById('heroDesc').value = d.hero.desc || '';
+    document.getElementById('heroBtn1').value = d.hero.btn1 || '';
+    document.getElementById('heroBtn2').value = d.hero.btn2 || '';
+    if (d.hero.background) {
+      document.getElementById('heroBgUrl').value = d.hero.background;
+      const prev = document.getElementById('heroBgPreview');
+      prev.src = d.hero.background;
+      prev.style.display = 'block';
+    }
   }
+
   if (d.services) d.services.forEach((svc,i) => {
     if (!document.getElementById(`svcTitle${i}`)) return;
     document.getElementById(`svcTitle${i}`).value = svc.title || '';
-    document.getElementById(`svcDesc${i}`).value  = svc.desc  || '';
-    document.getElementById(`svcLink${i}`).value  = svc.link  || '';
+    document.getElementById(`svcDesc${i}`).value = svc.desc || '';
+    document.getElementById(`svcLink${i}`).value = svc.link || '';
     const icon = svc.icon || 'fa-code';
     document.getElementById(`svcIcon${i}`).value = icon;
-    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o => o.classList.toggle('selected', o.getAttribute('data-ic')===icon));
+    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o => 
+      o.classList.toggle('selected', o.getAttribute('data-ic')===icon)
+    );
   });
+
   if (d.shop) d.shop.forEach((item,i) => {
     if (!document.getElementById(`shopTitle${i}`)) return;
-    document.getElementById(`shopTitle${i}`).value  = item.title || '';
-    document.getElementById(`shopDesc${i}`).value   = item.desc  || '';
+    document.getElementById(`shopTitle${i}`).value = item.title || '';
+    document.getElementById(`shopDesc${i}`).value = item.desc || '';
     document.getElementById(`shopImgUrl${i}`).value = item.image || '';
-    if (item.image) { const p=document.getElementById(`shopPreview${i}`); p.src=item.image; p.style.display='block'; }
+    if (item.image) { 
+      const p=document.getElementById(`shopPreview${i}`); 
+      p.src=item.image; 
+      p.style.display='block'; 
+    }
   });
+
   if (d.stats) d.stats.forEach((s,i) => {
     if (!document.getElementById(`statNum${i}`)) return;
-    document.getElementById(`statNum${i}`).value    = s.num    || '';
-    document.getElementById(`statLabel${i}`).value  = s.label  || '';
+    document.getElementById(`statNum${i}`).value = s.num || '';
+    document.getElementById(`statLabel${i}`).value = s.label || '';
     document.getElementById(`statSuffix${i}`).value = s.suffix || '';
     if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
   });
+
   if (d.footer) {
     const f = d.footer;
-    document.getElementById('footerAbout').value     = f.about     || '';
-    document.getElementById('footerAddress').value   = f.address   || '';
-    document.getElementById('footerPhone').value     = f.phone     || '';
-    document.getElementById('footerEmail').value     = f.email     || '';
-    document.getElementById('footerHours').value     = f.hours     || '';
-    document.getElementById('socialFb').value        = f.socialFb  || '';
-    document.getElementById('socialTw').value        = f.socialTw  || '';
-    document.getElementById('socialLi').value        = f.socialLi  || '';
-    document.getElementById('socialIg').value        = f.socialIg  || '';
+    document.getElementById('footerAbout').value = f.about || '';
+    document.getElementById('footerAddress').value = f.address || '';
+    document.getElementById('footerPhone').value = f.phone || '';
+    document.getElementById('footerEmail').value = f.email || '';
+    document.getElementById('footerHours').value = f.hours || '';
+    document.getElementById('socialFb').value = f.socialFb || '';
+    document.getElementById('socialTw').value = f.socialTw || '';
+    document.getElementById('socialLi').value = f.socialLi || '';
+    document.getElementById('socialIg').value = f.socialIg || '';
     document.getElementById('footerCopyright').value = f.copyright || '';
   }
 });
 
-async function uploadImage(event, index) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const label = document.querySelector(`label[for="shopFile${index}"]`);
-  label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-  const fd = new FormData();
-  fd.append('file', file); fd.append('upload_preset', UPLOAD_PRESET);
-  try {
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {method:'POST',body:fd});
-    const data = await res.json();
-    document.getElementById(`shopImgUrl${index}`).value = data.secure_url;
-    const p = document.getElementById(`shopPreview${index}`);
-    p.src = data.secure_url; p.style.display = 'block';
-    label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
-    setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Change Image'; }, 2000);
-  } catch(e) {
-    label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed';
-    setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Upload Image'; }, 2000);
-  }
-}
-
-const BTN_LABELS = {hero:'Save Hero',services:'Save Services',shop:'Save Products',stats:'Save Stats',footer:'Save Footer'};
+const BTN_LABELS = {
+  hero:'Save Hero',
+  services:'Save Services',
+  shop:'Save Products',
+  stats:'Save Stats',
+  footer:'Save Footer'
+};
 
 async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
   try {
     const snap = await db.ref('websiteContent').once('value');
     const existing = snap.val() || {};
     let patch = {};
 
-    if (section==='hero') patch.hero = {
-      badge: document.getElementById('heroBadge').value,
-      title: document.getElementById('heroTitle').value,
-      desc:  document.getElementById('heroDesc').value,
-      btn1:  document.getElementById('heroBtn1').value,
-      btn2:  document.getElementById('heroBtn2').value
-    };
+    if (section==='hero') {
+      patch.hero = {
+        badge: document.getElementById('heroBadge').value,
+        title: document.getElementById('heroTitle').value,
+        desc: document.getElementById('heroDesc').value,
+        btn1: document.getElementById('heroBtn1').value,
+        btn2: document.getElementById('heroBtn2').value,
+        background: document.getElementById('heroBgUrl').value.trim() || (existing.hero?.background || '')
+      };
+    }
+
     if (section==='services') {
       patch.services = [];
       for(let i=0;i<4;i++) patch.services.push({
-        icon:  document.getElementById(`svcIcon${i}`).value,
+        icon: document.getElementById(`svcIcon${i}`).value,
         title: document.getElementById(`svcTitle${i}`).value,
-        desc:  document.getElementById(`svcDesc${i}`).value,
-        link:  document.getElementById(`svcLink${i}`).value
+        desc: document.getElementById(`svcDesc${i}`).value,
+        link: document.getElementById(`svcLink${i}`).value
       });
     }
+
     if (section==='shop') {
       patch.shop = [];
       for(let i=0;i<4;i++) patch.shop.push({
         title: document.getElementById(`shopTitle${i}`).value,
-        desc:  document.getElementById(`shopDesc${i}`).value,
+        desc: document.getElementById(`shopDesc${i}`).value,
         image: document.getElementById(`shopImgUrl${i}`).value
       });
     }
+
     if (section==='stats') {
       patch.stats = [];
       for(let i=0;i<3;i++) patch.stats.push({
-        num:    document.getElementById(`statNum${i}`).value,
-        label:  document.getElementById(`statLabel${i}`).value,
+        num: document.getElementById(`statNum${i}`).value,
+        label: document.getElementById(`statLabel${i}`).value,
         suffix: document.getElementById(`statSuffix${i}`).value
       });
     }
+
     if (section==='footer') patch.footer = {
-      about:     document.getElementById('footerAbout').value,
-      address:   document.getElementById('footerAddress').value,
-      phone:     document.getElementById('footerPhone').value,
-      email:     document.getElementById('footerEmail').value,
-      hours:     document.getElementById('footerHours').value,
-      socialFb:  document.getElementById('socialFb').value,
-      socialTw:  document.getElementById('socialTw').value,
-      socialLi:  document.getElementById('socialLi').value,
-      socialIg:  document.getElementById('socialIg').value,
+      about: document.getElementById('footerAbout').value,
+      address: document.getElementById('footerAddress').value,
+      phone: document.getElementById('footerPhone').value,
+      email: document.getElementById('footerEmail').value,
+      hours: document.getElementById('footerHours').value,
+      socialFb: document.getElementById('socialFb').value,
+      socialTw: document.getElementById('socialTw').value,
+      socialLi: document.getElementById('socialLi').value,
+      socialIg: document.getElementById('socialIg').value,
       copyright: document.getElementById('footerCopyright').value
     };
 
-    await db.ref('websiteContent').set({...existing,...patch});
-    btn.classList.remove('loading'); btn.classList.add('success');
+    await db.ref('websiteContent').set({...existing, ...patch});
+
+    btn.classList.remove('loading');
+    btn.classList.add('success');
     btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
     showToast(`${section.charAt(0).toUpperCase()+section.slice(1)} saved successfully!`,'success');
+
     setTimeout(() => {
       btn.classList.remove('success');
       btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${BTN_LABELS[section]}`;
     }, 2600);
+
   } catch(err) {
-    btn.classList.remove('loading'); btn.classList.add('error-state');
+    btn.classList.remove('loading');
+    btn.classList.add('error-state');
     btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
     showToast('Save failed — check console.','error');
     setTimeout(() => {
