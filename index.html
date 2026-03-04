@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTech Admin — Content Manager</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+  <style>
+    :root { --primary: #0066ff; --dark: #0f172a; --bg: #f1f5f9; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); padding: 40px 20px; }
+    .admin-container { max-width: 900px; margin: 0 auto; }
+    
+    .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+    h2 { margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+    
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    input, textarea, select { 
+      width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; 
+      font-family: inherit; font-size: 1rem; outline: none;
+    }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,102,255,0.1); }
+
+    .btn-save { 
+      background: var(--primary); color: white; border: none; padding: 12px 25px; 
+      border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    }
+    .btn-save:hover { opacity: 0.9; transform: translateY(-2px); }
+    
+    .upload-area { 
+      border: 2px dashed #cbd5e1; padding: 20px; text-align: center; border-radius: 12px;
+      background: #f8fafc; cursor: pointer; transition: 0.3s;
+    }
+    .upload-area:hover { border-color: var(--primary); background: #f1f7ff; }
+
+    #status { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; color: white; display: none; z-index: 1000; }
+    
+    /* Services Management */
+    .service-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: start; }
+    .btn-delete { background: #fee2e2; color: #ef4444; border: none; padding: 12px; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="admin-container">
+  <h1>MTech CMS Dashboard</h1>
+  <p style="margin-bottom: 40px; color: #64748b;">Manage your website content in real-time.</p>
+
+  <div class="card">
+    <h2><i class="fas fa-rocket"></i> Hero Section Settings</h2>
+    <div class="form-group">
+      <label>Hero Badge (Small text at top)</label>
+      <input type="text" id="hero-badge">
+    </div>
+    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <label>Main Title (Plain text)</label>
+        <input type="text" id="hero-titleMain">
+      </div>
+      <div>
+        <label>Gradient Title (Blue text)</label>
+        <input type="text" id="hero-titleGradient">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Hero Description</label>
+      <textarea id="hero-desc" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Background Image (Cloudinary)</label>
+      <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--primary);"></i>
+        <p id="upload-text">Click to upload new background image</p>
+        <input type="file" id="fileInput" hidden accept="image/*">
+      </div>
+      <input type="hidden" id="hero-bgId">
+    </div>
+    <button class="btn-save" onclick="saveHero()">Update Hero Section</button>
+  </div>
+
+  <div class="card">
+    <h2><i class="fas fa-concierge-bell"></i> Manage Services</h2>
+    <div id="services-list">
+      </div>
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
+    <h3>Add New Service</h3>
+    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px;">
+      <input type="text" id="new-service-title" placeholder="Service Title">
+      <select id="new-service-icon">
+        <option value="fa-code">Code Icon</option>
+        <option value="fa-laptop">Laptop Icon</option>
+        <option value="fa-shield-alt">Shield Icon</option>
+        <option value="fa-cloud">Cloud Icon</option>
+        <option value="fa-mobile-alt">Mobile Icon</option>
+      </select>
+      <button class="btn-save" style="background: var(--dark);" onclick="addService()">Add</button>
+    </div>
+    <textarea id="new-service-desc" placeholder="Service Description..." style="margin-top:10px;" rows="2"></textarea>
+  </div>
+</div>
+
+<div id="status"></div>
+
+<script>
+  // 1. CONFIGURATION
+  const firebaseConfig = {
+    apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+    authDomain: "pinotp-d7ef5.firebaseapp.com",
+    databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+    projectId: "pinotp-d7ef5",
+    storageBucket: "pinotp-d7ef5.firebasestorage.app",
+    messagingSenderId: "708458917827",
+    appId: "1:708458917827:web:375de278577df0adcf9776"
+  };
+
+  const CLOUD_NAME = "dqkujefxj";
+  const UPLOAD_PRESET = "mtech_preset"; // Change this to your unsigned preset name
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // 2. LOAD INITIAL DATA
+  db.ref('homepage').on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      // Hero data
+      document.getElementById('hero-badge').value = data.hero.badge;
+      document.getElementById('hero-titleMain').value = data.hero.titleMain;
+      document.getElementById('hero-titleGradient').value = data.hero.titleGradient;
+      document.getElementById('hero-desc').value = data.hero.description;
+      document.getElementById('hero-bgId').value = data.hero.bgImageId;
+      document.getElementById('upload-text').innerText = "Current Image ID: " + data.hero.bgImageId;
+
+      // Services data
+      renderServices(data.services || []);
+    }
+  });
+
+  // 3. CLOUDINARY UPLOAD LOGIC
+  document.getElementById('fileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    showStatus("Uploading to Cloudinary...", "#64748b");
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      document.getElementById('hero-bgId').value = data.public_id;
+      document.getElementById('upload-text').innerText = "Uploaded: " + data.public_id;
+      showStatus("Upload successful!", "#22c55e");
+    } catch (err) {
+      showStatus("Upload failed!", "#ef4444");
+    }
+  });
+
+  // 4. SAVE HERO SECTION
+  function saveHero() {
+    const data = {
+      badge: document.getElementById('hero-badge').value,
+      titleMain: document.getElementById('hero-titleMain').value,
+      titleGradient: document.getElementById('hero-titleGradient').value,
+      description: document.getElementById('hero-desc').value,
+      bgImageId: document.getElementById('hero-bgId').value
+    };
+
+    db.ref('homepage/hero').set(data)
+      .then(() => showStatus("Hero section updated!", "#0066ff"))
+      .catch(() => showStatus("Error saving to Firebase", "#ef4444"));
+  }
+
+  // 5. SERVICES MANAGEMENT
+  let localServices = [];
+  function renderServices(services) {
+    localServices = services;
+    const container = document.getElementById('services-list');
+    container.innerHTML = services.map((s, idx) => `
+      <div class="service-item">
+        <div style="flex-grow: 1; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <strong>${s.title}</strong> (${s.icon})
+          <p style="font-size: 0.8rem; margin: 0; color: #64748b;">${s.desc}</p>
+        </div>
+        <button class="btn-delete" onclick="deleteService(${idx})"><i class="fas fa-trash"></i></button>
+      </div>
+    `).join('');
+  }
+
+  function addService() {
+    const newS = {
+      title: document.getElementById('new-service-title').value,
+      icon: document.getElementById('new-service-icon').value,
+      desc: document.getElementById('new-service-desc').value
+    };
+    if(!newS.title) return;
+    localServices.push(newS);
+    db.ref('homepage/services').set(localServices)
+      .then(() => {
+        showStatus("Service added!", "#0066ff");
+        document.getElementById('new-service-title').value = '';
+        document.getElementById('new-service-desc').value = '';
+      });
+  }
+
+  function deleteService(idx) {
+    localServices.splice(idx, 1);
+    db.ref('homepage/services').set(localServices)
+      .then(() => showStatus("Service deleted", "#ef4444"));
+  }
+
+  function showStatus(msg, color) {
+    const s = document.getElementById('status');
+    s.innerText = msg;
+    s.style.background = color;
+    s.style.display = 'block';
+    setTimeout(() => s.style.display = 'none', 3000);
+  }
+</script>
+</body>
+</html>
