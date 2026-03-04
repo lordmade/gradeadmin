@@ -5,299 +5,758 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MTech Solutions | Admin Dashboard</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
-      --primary: #0066ff;
-      --primary-hover: #0052cc;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --sidebar-bg: #1e293b;
-      --sidebar-text: #f1f5f9;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --shadow-md: 0 10px 30px rgba(0,0,0,0.05);
-      --shadow-lg: 0 20px 40px rgba(0,102,255,0.1);
-      --radius: 16px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --primary: #6c47ff;
+      --primary-glow: rgba(108, 71, 255, 0.25);
+      --accent: #00e5c3;
+      --accent-2: #ff6b47;
+      --bg: #0a0a0f;
+      --bg-2: #111118;
+      --surface: #16161f;
+      --surface-2: #1e1e2a;
+      --border: rgba(255,255,255,0.07);
+      --border-bright: rgba(108, 71, 255, 0.4);
+      --text: #f0f0f8;
+      --text-muted: #6b6b85;
+      --text-dim: #4a4a60;
+      --sidebar-w: 270px;
+      --radius: 18px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
-      color: var(--text-main);
-      display: flex; /* Sidebar layout */
+      color: var(--text);
+      display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* --- Sidebar Styles --- */
+    /* Ambient background */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(108,71,255,0.12) 0%, transparent 70%);
+      top: -200px; right: -100px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,229,195,0.07) 0%, transparent 70%);
+      bottom: 0; left: 150px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== SIDEBAR ===== */
     .sidebar {
-      width: 260px;
-      background: var(--sidebar-bg);
-      color: var(--sidebar-text);
+      width: var(--sidebar-w);
+      background: var(--surface);
       height: 100vh;
       position: fixed;
       left: 0; top: 0;
       display: flex;
       flex-direction: column;
       z-index: 1000;
-      transition: var(--transition);
+      border-right: 1px solid var(--border);
+      transition: transform 0.35s var(--ease);
+    }
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
 
     .sidebar-header {
-      padding: 2rem;
-      font-size: 1.25rem;
-      font-weight: 800;
+      padding: 2rem 1.75rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      gap: 12px;
     }
 
-    .sidebar-header i { color: var(--primary); }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--primary), #a47bff);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span { color: var(--accent); }
+
+    .sidebar-label {
+      padding: 0 1.75rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
 
     .sidebar-nav {
       flex: 1;
-      padding: 1.5rem 1rem;
+      padding: 0.5rem 1rem;
     }
 
     .sidebar-nav a {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 0.8rem 1rem;
-      color: #94a3b8;
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
       text-decoration: none;
       font-weight: 500;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-      transition: var(--transition);
+      font-size: 0.9rem;
+      border-radius: 12px;
+      margin-bottom: 2px;
+      transition: all 0.2s var(--ease);
+      position: relative;
+      overflow: hidden;
     }
 
-    .sidebar-nav a:hover, .sidebar-nav a.active {
-      background: rgba(255, 255, 255, 0.1);
+    .nav-icon {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px;
+      background: var(--surface-2);
+      font-size: 0.85rem;
+      transition: all 0.2s var(--ease);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav a:hover { color: var(--text); }
+    .sidebar-nav a:hover .nav-icon { background: rgba(108,71,255,0.15); color: var(--primary); }
+
+    .sidebar-nav a.active { color: var(--text); }
+    .sidebar-nav a.active .nav-icon {
+      background: linear-gradient(135deg, var(--primary), #8f6fff);
       color: white;
+      box-shadow: 0 4px 12px var(--primary-glow);
     }
 
-    .sidebar-nav a.active {
+    .sidebar-nav a.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 3px;
       background: var(--primary);
-      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1rem 1.75rem;
     }
 
     .sidebar-footer {
-      padding: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-size: 0.8rem;
-      color: #64748b;
+      padding: 1.25rem 1.75rem;
+      border-top: 1px solid var(--border);
     }
 
-    /* --- Content Area --- */
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 0.6rem 0.9rem;
+    }
+
+    .user-avatar {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .user-info { flex: 1; }
+    .user-name { font-size: 0.82rem; font-weight: 600; }
+    .user-role { font-size: 0.7rem; color: var(--text-muted); }
+
+    /* ===== MAIN CONTENT ===== */
     .main-content {
       flex: 1;
-      margin-left: 260px; /* Space for sidebar */
-      padding: 2rem;
-      max-width: 1200px;
-      transition: var(--transition);
+      margin-left: var(--sidebar-w);
+      padding: 2.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Mobile Header/Toggle */
+    /* Mobile bar */
     .mobile-top-bar {
       display: none;
-      background: white;
-      padding: 1rem;
+      background: var(--surface);
+      padding: 1rem 1.5rem;
       position: sticky;
-      top: 0;
-      z-index: 999;
+      top: 0; z-index: 999;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
     }
 
-    .menu-toggle {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-main);
+    .mobile-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
     }
 
-    /* --- Components (Cards, Inputs, Buttons) --- */
-    .section-header { margin-bottom: 2rem; }
-    .section-header h2 { font-size: 1.8rem; font-weight: 700; }
-    .section-header p { color: var(--text-muted); }
+    .menu-toggle {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
 
+    /* ===== HEADER ===== */
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.5s var(--ease) both;
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .page-header h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header p { color: var(--text-muted); margin-top: 0.3rem; font-size: 0.9rem; }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(0,229,195,0.1);
+      border: 1px solid rgba(0,229,195,0.2);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,195,0.4); }
+      50% { box-shadow: 0 0 0 5px transparent; }
+    }
+
+    /* ===== CARDS ===== */
     .card {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 2.5rem;
-      box-shadow: var(--shadow-md);
-      margin-bottom: 3rem;
       border: 1px solid var(--border);
+      margin-bottom: 2rem;
+      overflow: hidden;
       opacity: 0;
-      transform: translateY(20px);
-      animation: slideUp 0.6s ease forwards;
+      transform: translateY(24px);
+      animation: slideUp 0.55s var(--ease) forwards;
+      transition: border-color 0.2s;
     }
 
+    .card:hover { border-color: rgba(108,71,255,0.2); }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.15s; }
+    .card:nth-child(3) { animation-delay: 0.25s; }
+
     @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, var(--surface-2), var(--surface));
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .card-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    .icon-purple { background: rgba(108,71,255,0.15); color: var(--primary); }
+    .icon-cyan { background: rgba(0,229,195,0.12); color: var(--accent); }
+    .icon-orange { background: rgba(255,107,71,0.12); color: var(--accent-2); }
 
     .card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    .card-body { padding: 2rem; }
+
+    /* ===== FORMS ===== */
+    .form-group { margin-bottom: 1.4rem; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.2s var(--ease);
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(108,71,255,0.04);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    /* ===== GRID ===== */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+
+    .item-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.2s var(--ease);
+      position: relative;
+    }
+
+    .item-box:hover {
+      border-color: rgba(108,71,255,0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .item-num {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 7px;
+    }
+
+    /* ===== FILE UPLOAD ===== */
+    .file-upload-wrapper { position: relative; margin-bottom: 1rem; }
+    .file-upload-input { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.9rem;
+      background: transparent;
+      border: 1.5px dashed var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.2s var(--ease);
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(108,71,255,0.05);
+    }
+
+    .image-preview {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 0.75rem;
+      display: none;
+      border: 1px solid var(--border);
+    }
+
+    /* ===== SECTION SAVE BUTTON ===== */
+    .card-footer {
+      padding: 1.25rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-2);
+    }
+
+    .save-hint {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.65rem 1.6rem;
+      background: linear-gradient(135deg, var(--primary), #8a67ff);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+      box-shadow: 0 4px 16px var(--primary-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-save::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-save:hover::before { opacity: 1; }
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--primary-glow); }
+    .btn-save:active { transform: translateY(0); }
+
+    .btn-save.loading { pointer-events: none; opacity: 0.7; }
+    .btn-save.success { background: linear-gradient(135deg, #10b981, #34d399); box-shadow: 0 4px 16px rgba(16,185,129,0.3); }
+
+    /* ===== STATS BOX ===== */
+    .stat-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.2s var(--ease);
+    }
+
+    .stat-box:hover { border-color: rgba(108,71,255,0.25); transform: translateY(-2px); }
+
+    .stat-number-preview {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 9999;
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 1.5rem;
-      font-size: 1.3rem;
-      font-weight: 700;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.88rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
     }
 
-    .card-title i { color: var(--primary); }
+    .toast.show { transform: translateX(0); }
 
-    .form-group { margin-bottom: 1.5rem; }
-    label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
-    
-    input[type="text"], input[type="number"], textarea {
-      width: 100%; padding: 0.85rem 1rem;
-      border: 2px solid var(--border); border-radius: 10px;
-      font-family: inherit; font-size: 1rem; transition: var(--transition);
-      background: #f8fafc;
+    .toast-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
     }
 
-    input:focus, textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1); }
+    .toast.success .toast-icon { background: rgba(16,185,129,0.15); color: #10b981; }
+    .toast.error .toast-icon { background: rgba(255,71,71,0.15); color: #ff4747; }
+    .toast.success { border-color: rgba(16,185,129,0.2); }
+    .toast.error { border-color: rgba(255,71,71,0.2); }
 
-    /* Grid for items */
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
-    .item-box { border: 1px solid var(--border); padding: 1.5rem; border-radius: 12px; background: #fafafa; }
-
-    /* Custom File Upload */
-    .file-upload-wrapper { position: relative; margin-bottom: 1rem; }
-    .file-upload-input { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
-    .file-upload-label {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 0.8rem; background: white; border: 2px dashed var(--border);
-      border-radius: 10px; cursor: pointer; font-weight: 500; color: var(--text-muted); transition: var(--transition);
-    }
-    .file-upload-label:hover { border-color: var(--primary); color: var(--primary); background: #eff6ff; }
-
-    .image-preview { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-top: 1rem; display: none; border: 1px solid var(--border); }
-
-    /* Sticky Save Bar */
-    .action-bar {
-      position: fixed; bottom: 0; left: 260px; right: 0;
-      background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-      padding: 1.2rem 2rem; border-top: 1px solid var(--border);
-      display: flex; justify-content: center; z-index: 900;
-      transition: var(--transition);
+    /* ===== OVERLAY ===== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
     }
 
-    .btn {
-      background: var(--primary); color: white; border: none; padding: 1rem 3.5rem;
-      border-radius: 999px; font-weight: 700; font-size: 1.1rem; cursor: pointer;
-      transition: var(--transition); box-shadow: var(--shadow-lg);
-    }
-    .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-    /* Toast */
-    #toast {
-      visibility: hidden; min-width: 300px; background: #10b981; color: #fff;
-      text-align: center; border-radius: 12px; padding: 1rem; position: fixed;
-      z-index: 2000; left: 50%; top: 30px; transform: translateX(-50%) translateY(-20px);
-      opacity: 0; font-weight: 600; transition: all 0.4s;
-    }
-    #toast.show { visibility: visible; transform: translateX(-50%) translateY(0); opacity: 1; }
-
-    /* Responsiveness */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.active { transform: translateX(0); }
+      .sidebar-overlay.active { display: block; }
       .main-content { margin-left: 0; }
-      .action-bar { left: 0; }
       .mobile-top-bar { display: flex; }
+    }
+
+    @media (max-width: 600px) {
+      .main-content { padding: 1.5rem 1rem; }
+      .card-body { padding: 1.25rem; }
+      .card-header { padding: 1.25rem; }
+      .card-footer { padding: 1rem 1.25rem; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+      .page-header { flex-direction: column; gap: 0.75rem; }
     }
   </style>
 </head>
 <body>
 
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <i class="fas fa-rocket"></i> MTech Admin
+    <div class="logo-mark"><i class="fas fa-bolt"></i></div>
+    <div class="logo-text">MTech <span>Admin</span></div>
   </div>
+
   <nav class="sidebar-nav">
-    <a href="#hero-section" class="active"><i class="fas fa-home"></i> Hero Content</a>
-    <a href="#hardware-section"><i class="fas fa-laptop"></i> Hardware Shop</a>
-    <a href="#stats-section"><i class="fas fa-chart-bar"></i> Results / Stats</a>
-    <a href="#" onclick="window.location.reload()"><i class="fas fa-sync"></i> Refresh Data</a>
+    <div class="sidebar-label">Navigation</div>
+
+    <a href="#hero-section" class="active" onclick="setActive(this)">
+      <div class="nav-icon"><i class="fas fa-home"></i></div>
+      Hero Section
+    </a>
+    <a href="#hardware-section" onclick="setActive(this)">
+      <div class="nav-icon"><i class="fas fa-laptop"></i></div>
+      Hardware Shop
+    </a>
+    <a href="#stats-section" onclick="setActive(this)">
+      <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
+      Stats & Results
+    </a>
+
+    <div class="divider"></div>
+
+    <a href="#" onclick="window.location.reload(); return false;">
+      <div class="nav-icon"><i class="fas fa-sync-alt"></i></div>
+      Refresh Data
+    </a>
   </nav>
+
   <div class="sidebar-footer">
-    &copy; 2026 MTech Solutions<br>Logged in as Admin
+    <div class="user-pill">
+      <div class="user-avatar">A</div>
+      <div class="user-info">
+        <div class="user-name">Administrator</div>
+        <div class="user-role">Full Access</div>
+      </div>
+      <i class="fas fa-circle" style="color:var(--accent);font-size:0.5rem;"></i>
+    </div>
   </div>
 </aside>
 
+<!-- Mobile Bar -->
 <div class="mobile-top-bar">
-  <div style="font-weight: 800;"><i class="fas fa-rocket" style="color:var(--primary)"></i> MTech Admin</div>
+  <div class="mobile-logo"><span style="color:var(--primary)">MTech</span> Admin</div>
   <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 </div>
 
+<!-- Main Content -->
 <main class="main-content">
-  
-  <header class="section-header">
-    <h2>Dashboard Overview</h2>
-    <p>Manage your website content in real-time.</p>
-  </header>
 
+  <div class="page-header">
+    <div>
+      <h1>Dashboard <em>Overview</em></h1>
+      <p>Manage and publish website content in real-time.</p>
+    </div>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Live · Firebase Connected
+    </div>
+  </div>
+
+  <!-- ===== HERO SECTION CARD ===== -->
   <section id="hero-section" class="card">
-    <div class="card-title"><i class="fas fa-edit"></i> Hero Section</div>
-    <div class="form-group">
-      <label>Badge Text</label>
-      <input type="text" id="heroBadge" placeholder="e.g. Innovation in Mokopane">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-icon icon-purple"><i class="fas fa-edit"></i></div>
+        <div>
+          <div class="card-title">Hero Section</div>
+          <div class="card-subtitle">Main landing page headline &amp; copy</div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Main Title</label>
-      <input type="text" id="heroTitle">
+    <div class="card-body">
+      <div class="form-group">
+        <label>Badge Text</label>
+        <input type="text" id="heroBadge" placeholder="e.g. Innovation in Mokopane">
+      </div>
+      <div class="form-group">
+        <label>Main Title</label>
+        <input type="text" id="heroTitle" placeholder="Your powerful headline here">
+      </div>
+      <div class="form-group">
+        <label>Subtitle / Description</label>
+        <textarea id="heroDesc" placeholder="Supporting description text..."></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Subtitle / Description</label>
-      <textarea id="heroDesc"></textarea>
+    <div class="card-footer">
+      <span class="save-hint"><i class="fas fa-info-circle"></i> Only hero content will be updated</span>
+      <button class="btn-save" onclick="saveSection('hero', this)">
+        <i class="fas fa-cloud-upload-alt"></i> Save Hero
+      </button>
     </div>
   </section>
 
+  <!-- ===== HARDWARE SHOP CARD ===== -->
   <section id="hardware-section" class="card">
-    <div class="card-title"><i class="fas fa-shopping-cart"></i> Hardware Shop</div>
-    <div class="grid-2" id="shopContainer">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-icon icon-cyan"><i class="fas fa-shopping-bag"></i></div>
+        <div>
+          <div class="card-title">Hardware Shop</div>
+          <div class="card-subtitle">Product listings with images &amp; descriptions</div>
+        </div>
       </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-2" id="shopContainer"></div>
+    </div>
+    <div class="card-footer">
+      <span class="save-hint"><i class="fas fa-info-circle"></i> Images upload to Cloudinary automatically</span>
+      <button class="btn-save" onclick="saveSection('shop', this)">
+        <i class="fas fa-cloud-upload-alt"></i> Save Products
+      </button>
+    </div>
   </section>
 
+  <!-- ===== STATS CARD ===== -->
   <section id="stats-section" class="card">
-    <div class="card-title"><i class="fas fa-tachometer-alt"></i> Statistics</div>
-    <div class="grid-2" id="statsContainer">
+    <div class="card-header">
+      <div class="card-title-group">
+        <div class="card-icon icon-orange"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <div class="card-title">Statistics &amp; Results</div>
+          <div class="card-subtitle">Key metrics shown on the website</div>
+        </div>
       </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-2" id="statsContainer"></div>
+    </div>
+    <div class="card-footer">
+      <span class="save-hint"><i class="fas fa-info-circle"></i> Only statistics will be updated</span>
+      <button class="btn-save" onclick="saveSection('stats', this)">
+        <i class="fas fa-cloud-upload-alt"></i> Save Stats
+      </button>
+    </div>
   </section>
 
 </main>
 
-<div class="action-bar">
-  <button class="btn" id="saveBtn" onclick="saveData()">Publish All Changes</button>
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <div class="toast-icon"><i class="fas fa-check"></i></div>
+  <span id="toast-msg">Saved successfully!</span>
 </div>
-
-<div id="toast"><i class="fas fa-check-circle"></i> Changes Published Successfully!</div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-  // Configuration
+  // ===== CONFIG =====
   const firebaseConfig = {
-      apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
-      authDomain: "pinotp-d7ef5.firebaseapp.com",
-      databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
-      projectId: "pinotp-d7ef5",
-      storageBucket: "pinotp-d7ef5.firebasestorage.app",
-      messagingSenderId: "708458917827",
-      appId: "1:708458917827:web:375de278577df0adcf9776"
+    apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
+    authDomain: "pinotp-d7ef5.firebaseapp.com",
+    databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
+    projectId: "pinotp-d7ef5",
+    storageBucket: "pinotp-d7ef5.firebasestorage.app",
+    messagingSenderId: "708458917827",
+    appId: "1:708458917827:web:375de278577df0adcf9776"
   };
   const CLOUD_NAME = "dv5bsbydu";
   const UPLOAD_PRESET = "admin_tlaka";
@@ -305,73 +764,102 @@
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Toggle Sidebar for Mobile
+  // ===== SIDEBAR =====
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').classList.remove('active');
+  }
+  function setActive(el) {
+    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+    if (window.innerWidth <= 1024) closeSidebar();
   }
 
-  // Sidebar Link Highlight
-  const navLinks = document.querySelectorAll('.sidebar-nav a');
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      if(window.innerWidth <= 1024) toggleSidebar();
-    });
-  });
+  // ===== TOAST =====
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    const icon = t.querySelector('.toast-icon i');
+    document.getElementById('toast-msg').textContent = msg;
+    t.className = 'toast ' + type;
+    icon.className = type === 'success' ? 'fas fa-check' : 'fas fa-times';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
 
-  // Build UI
+  // ===== BUILD SHOP UI =====
   const shopContainer = document.getElementById('shopContainer');
   for (let i = 0; i < 4; i++) {
     shopContainer.innerHTML += `
       <div class="item-box">
-        <label>Product ${i + 1} Image</label>
+        <div class="item-num">P${i + 1}</div>
         <div class="file-upload-wrapper">
           <input type="file" id="file${i}" class="file-upload-input" onchange="uploadImage(event, ${i})">
-          <label for="file${i}" class="file-upload-label"><i class="fas fa-upload"></i> Upload</label>
+          <label for="file${i}" class="file-upload-label">
+            <i class="fas fa-image"></i> Upload Image
+          </label>
         </div>
         <img id="shopImgPreview${i}" class="image-preview">
         <input type="hidden" id="shopImgUrl${i}">
-        <div class="form-group"><input type="text" id="shopTitle${i}" placeholder="Title"></div>
-        <div class="form-group"><input type="text" id="shopDesc${i}" placeholder="Desc"></div>
+        <div class="form-group"><label>Title</label><input type="text" id="shopTitle${i}" placeholder="Product name"></div>
+        <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
       </div>
     `;
   }
 
+  // ===== BUILD STATS UI =====
   const statsContainer = document.getElementById('statsContainer');
+  const statColors = ['var(--primary)', 'var(--accent)', 'var(--accent-2)'];
   for (let i = 0; i < 3; i++) {
     statsContainer.innerHTML += `
-      <div class="item-box">
-        <div class="form-group"><label>Value</label><input type="number" id="statNum${i}"></div>
-        <div class="form-group"><label>Label</label><input type="text" id="statLabel${i}"></div>
+      <div class="stat-box">
+        <div class="stat-number-preview" id="statPreview${i}">—</div>
+        <div class="form-group">
+          <label>Value</label>
+          <input type="number" id="statNum${i}" placeholder="e.g. 500" oninput="document.getElementById('statPreview${i}').textContent = this.value || '—'">
+        </div>
+        <div class="form-group">
+          <label>Label</label>
+          <input type="text" id="statLabel${i}" placeholder="e.g. Happy Clients">
+        </div>
       </div>
     `;
   }
 
-  // Same Fetch/Upload/Save Logic from previous version...
-  db.ref('websiteContent').once('value').then((snapshot) => {
-    const data = snapshot.val();
+  // ===== LOAD DATA =====
+  db.ref('websiteContent').once('value').then((snap) => {
+    const data = snap.val();
     if (!data) return;
     document.getElementById('heroBadge').value = data.hero?.badge || '';
     document.getElementById('heroTitle').value = data.hero?.title || '';
     document.getElementById('heroDesc').value = data.hero?.desc || '';
+
     data.shop?.forEach((item, i) => {
       document.getElementById(`shopTitle${i}`).value = item.title || '';
       document.getElementById(`shopDesc${i}`).value = item.desc || '';
       document.getElementById(`shopImgUrl${i}`).value = item.image || '';
-      if(item.image) {
+      if (item.image) {
         const p = document.getElementById(`shopImgPreview${i}`);
         p.src = item.image; p.style.display = 'block';
       }
     });
+
     data.stats?.forEach((item, i) => {
       document.getElementById(`statNum${i}`).value = item.num || '';
       document.getElementById(`statLabel${i}`).value = item.label || '';
+      if (item.num) document.getElementById(`statPreview${i}`).textContent = item.num;
     });
   });
 
+  // ===== UPLOAD IMAGE =====
   async function uploadImage(event, index) {
     const file = event.target.files[0];
+    if (!file) return;
+    const label = document.querySelector(`label[for="file${index}"]`);
+    label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', UPLOAD_PRESET);
@@ -381,21 +869,77 @@
       document.getElementById(`shopImgUrl${index}`).value = data.secure_url;
       const p = document.getElementById(`shopImgPreview${index}`);
       p.src = data.secure_url; p.style.display = 'block';
-    } catch (e) { console.error(e); }
+      label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
+      setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Change Image'; }, 2000);
+    } catch (e) {
+      label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Upload failed';
+      setTimeout(() => { label.innerHTML = '<i class="fas fa-image"></i> Upload Image'; }, 2000);
+    }
   }
 
-  function saveData() {
-    const shop = []; for(let i=0; i<4; i++) shop.push({title: document.getElementById(`shopTitle${i}`).value, desc: document.getElementById(`shopDesc${i}`).value, image: document.getElementById(`shopImgUrl${i}`).value});
-    const stats = []; for(let i=0; i<3; i++) stats.push({num: document.getElementById(`statNum${i}`).value, label: document.getElementById(`statLabel${i}`).value});
-    const payload = {
-      hero: { badge: document.getElementById('heroBadge').value, title: document.getElementById('heroTitle').value, desc: document.getElementById('heroDesc').value },
-      shop, stats
-    };
-    db.ref('websiteContent').set(payload).then(() => {
-      const t = document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3000);
-    });
+  // ===== SAVE SECTION =====
+  async function saveSection(section, btn) {
+    btn.classList.add('loading');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    try {
+      let payload = {};
+      const snap = await db.ref('websiteContent').once('value');
+      const existing = snap.val() || {};
+
+      if (section === 'hero') {
+        payload = {
+          ...existing,
+          hero: {
+            badge: document.getElementById('heroBadge').value,
+            title: document.getElementById('heroTitle').value,
+            desc: document.getElementById('heroDesc').value
+          }
+        };
+      } else if (section === 'shop') {
+        const shop = [];
+        for (let i = 0; i < 4; i++) {
+          shop.push({
+            title: document.getElementById(`shopTitle${i}`).value,
+            desc: document.getElementById(`shopDesc${i}`).value,
+            image: document.getElementById(`shopImgUrl${i}`).value
+          });
+        }
+        payload = { ...existing, shop };
+      } else if (section === 'stats') {
+        const stats = [];
+        for (let i = 0; i < 3; i++) {
+          stats.push({
+            num: document.getElementById(`statNum${i}`).value,
+            label: document.getElementById(`statLabel${i}`).value
+          });
+        }
+        payload = { ...existing, stats };
+      }
+
+      await db.ref('websiteContent').set(payload);
+
+      btn.classList.remove('loading');
+      btn.classList.add('success');
+      btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+      showToast(`${section.charAt(0).toUpperCase() + section.slice(1)} saved successfully!`);
+
+      setTimeout(() => {
+        btn.classList.remove('success');
+        const labels = { hero: 'Save Hero', shop: 'Save Products', stats: 'Save Stats' };
+        btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${labels[section]}`;
+      }, 2500);
+
+    } catch (err) {
+      btn.classList.remove('loading');
+      btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+      showToast('Failed to save. Check console.', 'error');
+      setTimeout(() => {
+        const labels = { hero: 'Save Hero', shop: 'Save Products', stats: 'Save Stats' };
+        btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${labels[section]}`;
+      }, 2500);
+      console.error(err);
+    }
   }
 </script>
 </body>
