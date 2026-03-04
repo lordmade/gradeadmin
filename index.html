@@ -36,6 +36,22 @@
       --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+
+    /* Light Mode Variables */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-2: #f1f5f9;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --surface-3: #f1f5f9;
+      --border: rgba(0,0,0,0.08);
+      --border-hover: rgba(59,130,246,0.4);
+      --border-focus: rgba(59,130,246,0.6);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -45,6 +61,7 @@
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 0.3s var(--ease), color 0.3s var(--ease);
     }
     /* Ambient glows */
     body::before {
@@ -65,6 +82,10 @@
       pointer-events: none; z-index: 0;
       animation: driftB 18s ease-in-out infinite alternate;
     }
+    [data-theme="light"] body::before,
+    [data-theme="light"] body::after {
+      display: none;
+    }
     @keyframes driftA { 0%{transform:translate(0,0)} 100%{transform:translate(50px,70px)} }
     @keyframes driftB { 0%{transform:translate(0,0)} 100%{transform:translate(-35px,-55px)} }
     /* ══════════════════════════
@@ -78,7 +99,7 @@
       display: flex; flex-direction: column;
       z-index: 1000;
       border-right: 1px solid var(--border);
-      transition: transform 0.35s var(--ease);
+      transition: transform 0.35s var(--ease), background 0.3s var(--ease);
       overflow-y: auto; overflow-x: hidden;
     }
     .sidebar::before {
@@ -97,6 +118,9 @@
       filter: brightness(0) invert(1);
       opacity: 0.88;
       transition: opacity 0.2s;
+    }
+    [data-theme="light"] .sidebar-logo img {
+      filter: brightness(0) invert(0);
     }
     .sidebar-logo img:hover { opacity: 1; }
     .admin-badge {
@@ -133,11 +157,15 @@
       font-size: 0.76rem;
       transition: all 0.22s var(--ease); flex-shrink: 0; position: relative; z-index: 1;
     }
+    [data-theme="light"] .nav-ico {
+      background: rgba(0,0,0,0.03);
+    }
     .sidebar-nav a span { position: relative; z-index: 1; }
     .sidebar-nav a:hover { color: var(--text); transform: translateX(3px); }
     .sidebar-nav a:hover::after { opacity: 1; }
     .sidebar-nav a:hover .nav-ico { background: var(--primary-glow-sm); color: var(--primary-light); }
     .sidebar-nav a.active { color: #fff; }
+    [data-theme="light"] .sidebar-nav a.active { color: var(--primary); }
     .sidebar-nav a.active::after { opacity: 1; }
     .sidebar-nav a.active .nav-ico {
       background: var(--primary); color: #fff;
@@ -199,6 +227,9 @@
       display: none; position: fixed; inset: 0;
       background: rgba(7,9,15,0.72); z-index: 998; backdrop-filter: blur(4px);
     }
+    [data-theme="light"] .overlay {
+      background: rgba(255,255,255,0.72);
+    }
     /* ══════════════════════════
        MAIN
     ══════════════════════════ */
@@ -242,8 +273,12 @@
       margin-bottom: 1.65rem;
       overflow: hidden;
       opacity: 0; animation: slideUp 0.52s var(--ease) forwards;
-      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease), background 0.3s var(--ease);
       position: relative;
+      display: none; /* Hidden by default, shown via JS */
+    }
+    .card.active {
+      display: block;
     }
     .card::before {
       content: '';
@@ -255,6 +290,9 @@
       border-color: var(--border-hover);
       box-shadow: 0 0 0 1px rgba(59,130,246,0.07), 0 20px 55px rgba(0,0,0,0.5);
       transform: translateY(-2px);
+    }
+    [data-theme="light"] .card:hover {
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.07), 0 20px 55px rgba(0,0,0,0.1);
     }
     .card:hover::before { opacity: 1; }
     .card:nth-child(1){animation-delay:0.04s}
@@ -330,6 +368,9 @@
     .item-box:hover {
       border-color: var(--border-hover); transform: translateY(-3px);
       box-shadow: 0 10px 35px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.08);
+    }
+    [data-theme="light"] .item-box:hover {
+      box-shadow: 0 10px 35px rgba(0,0,0,0.1), 0 0 0 1px rgba(59,130,246,0.08);
     }
     .item-box:hover::before { opacity: 1; }
     .item-badge {
@@ -441,6 +482,33 @@
     #toast.success .toast-ico { background:rgba(34,197,94,0.12); color:var(--green); }
     #toast.error .toast-ico { background:rgba(239,68,68,0.12); color:var(--red); }
     /* ══════════════════════════
+       DARK MODE TOGGLE
+    ══════════════════════════ */
+    .theme-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s var(--ease);
+      z-index: 100;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    /* ══════════════════════════
        RESPONSIVE
     ══════════════════════════ */
     @media (max-width:1024px) {
@@ -471,19 +539,19 @@
   </div>
   <nav class="sidebar-nav">
     <div class="sidebar-section-label">Content</div>
-    <a href="#s-hero" class="active" onclick="setNav(this)">
+    <a href="#s-hero" class="active" onclick="setNav(this, 'hero')">
       <div class="nav-ico"><i class="fas fa-home"></i></div><span>Hero Section</span>
     </a>
-    <a href="#s-services" onclick="setNav(this)">
+    <a href="#s-services" onclick="setNav(this, 'services')">
       <div class="nav-ico"><i class="fas fa-th-large"></i></div><span>Services</span>
     </a>
-    <a href="#s-shop" onclick="setNav(this)">
+    <a href="#s-shop" onclick="setNav(this, 'shop')">
       <div class="nav-ico"><i class="fas fa-shopping-bag"></i></div><span>Hardware Shop</span>
     </a>
-    <a href="#s-stats" onclick="setNav(this)">
+    <a href="#s-stats" onclick="setNav(this, 'stats')">
       <div class="nav-ico"><i class="fas fa-chart-bar"></i></div><span>Statistics</span>
     </a>
-    <a href="#s-footer" onclick="setNav(this)">
+    <a href="#s-footer" onclick="setNav(this, 'footer')">
       <div class="nav-ico"><i class="fas fa-layer-group"></i></div><span>Footer</span>
     </a>
     <div class="nav-divider"></div>
@@ -514,7 +582,7 @@
   </div>
 
   <!-- HERO -->
-  <section id="s-hero" class="card">
+  <section id="s-hero" class="card active">
     <div class="card-head">
       <div class="card-head-left">
         <div class="card-ico ico-blue"><i class="fas fa-edit"></i></div>
@@ -630,12 +698,12 @@
       </div>
       <div class="section-sub">Social Links</div>
       <div class="form-row">
-        <div class="form-group"><label>Facebook URL</label><input type="text" id="socialFb" placeholder="https://facebook.com/..."></div>
-        <div class="form-group"><label>Twitter / X URL</label><input type="text" id="socialTw" placeholder="https://twitter.com/..."></div>
+        <div class="form-group"><label>Facebook URL</label><input type="text" id="socialFb" placeholder="https://facebook.com/ ..."></div>
+        <div class="form-group"><label>Twitter / X URL</label><input type="text" id="socialTw" placeholder="https://twitter.com/ ..."></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>LinkedIn URL</label><input type="text" id="socialLi" placeholder="https://linkedin.com/..."></div>
-        <div class="form-group"><label>Instagram URL</label><input type="text" id="socialIg" placeholder="https://instagram.com/..."></div>
+        <div class="form-group"><label>LinkedIn URL</label><input type="text" id="socialLi" placeholder="https://linkedin.com/ ..."></div>
+        <div class="form-group"><label>Instagram URL</label><input type="text" id="socialIg" placeholder="https://instagram.com/ ..."></div>
       </div>
       <div class="section-sub">Copyright</div>
       <div class="form-group">
@@ -655,6 +723,10 @@
   <span id="toast-msg">Saved!</span>
 </div>
 
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+  <i class="fas fa-moon" id="themeIcon"></i>
+</button>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
@@ -673,6 +745,30 @@ const UPLOAD_PRESET = "admin_tlaka";
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// Theme Toggle
+function toggleTheme() {
+  const body = document.body;
+  const icon = document.getElementById('themeIcon');
+  const currentTheme = body.getAttribute('data-theme');
+  
+  if (currentTheme === 'light') {
+    body.removeAttribute('data-theme');
+    icon.className = 'fas fa-moon';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.setAttribute('data-theme', 'light');
+    icon.className = 'fas fa-sun';
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  document.body.setAttribute('data-theme', 'light');
+  document.getElementById('themeIcon').className = 'fas fa-sun';
+}
+
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('open');
@@ -683,9 +779,21 @@ function closeSidebar() {
   document.getElementById('overlay').classList.remove('open');
 }
 
-function setNav(el) {
+function setNav(el, sectionId) {
+  // Remove active from all nav items
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  // Add active to clicked item
   el.classList.add('active');
+  
+  // Hide all cards
+  document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+  
+  // Show selected card
+  const selectedCard = document.getElementById('s-' + sectionId);
+  if (selectedCard) {
+    selectedCard.classList.add('active');
+  }
+  
   if (window.innerWidth <= 1024) closeSidebar();
 }
 
