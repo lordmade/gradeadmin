@@ -540,43 +540,20 @@
       font-size: 2rem;
       margin-bottom: 0.5rem;
     }
-    /* Enquiries Table Styles */
-    .enquiries-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
+    /* Services Horizontal Scroll */
+    #servicesContainer {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.1rem;
+      padding-bottom: 1rem;
+      scroll-behavior: smooth;
     }
-    .enquiries-table th,
-    .enquiries-table td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
+    #servicesContainer::-webkit-scrollbar {
+      height: 8px;
     }
-    .enquiries-table th {
-      background: var(--surface-2);
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .enquiries-table tr:hover {
-      background: rgba(4,4,216,0.04);
-    }
-    .enq-code {
-      font-family: monospace;
-      background: var(--surface-3);
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: var(--primary-light);
-    }
-    .status-new {
-      background: #fef3c7;
-      color: #854d0e;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
+    #servicesContainer::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
     }
     /* ══════════════════════════
        TOAST
@@ -752,14 +729,15 @@
     <div class="card-head">
       <div class="card-head-left">
         <div class="card-ico ico-purple"><i class="fas fa-th-large"></i></div>
-        <div><div class="card-title">Solutions / Services Cards</div><div class="card-subtitle">Edit the 4 service cards shown on the homepage</div></div>
+        <div><div class="card-title">Solutions / Services Cards</div><div class="card-subtitle">Add unlimited services — they scroll horizontally</div></div>
       </div>
     </div>
     <div class="card-body">
-      <div class="grid-2" id="servicesContainer"></div>
+      <div id="servicesContainer"></div>
+      <button onclick="addNewService()" class="btn-save" style="margin-top:1.5rem;width:fit-content;">+ Add New Service</button>
     </div>
     <div class="card-foot">
-      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates all 4 service cards</span>
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Services scroll horizontally • Unlimited items</span>
       <button class="btn-save" onclick="saveSection('services',this)"><i class="fas fa-cloud-upload-alt"></i> Save Services</button>
     </div>
   </section>
@@ -861,7 +839,7 @@
       <button class="btn-save" onclick="saveSection('footer',this)"><i class="fas fa-cloud-upload-alt"></i> Save Footer</button>
     </div>
   </section>
-  <!-- CONTACTS TAB -->
+  <!-- CONTACTS -->
   <section id="s-contacts" class="card">
     <div class="card-head">
       <div class="card-head-left">
@@ -990,31 +968,43 @@ const SERVICE_ICONS = [
   'fa-laptop','fa-server','fa-network-wired','fa-database',
   'fa-mobile-alt','fa-cogs','fa-headset','fa-chart-line'
 ];
-// Build Services
-const servicesContainer = document.getElementById('servicesContainer');
-for (let i = 0; i < 4; i++) {
-  const iconPicker = SERVICE_ICONS.map(ic =>
-    `<div class="icon-opt${ic==='fa-code'?' selected':''}" data-ic="${ic}" onclick="selectIcon(this,${i})"><i class="fas ${ic}"></i></div>`
+// NEW: Dynamic Services - horizontal scroll + add/remove
+function createServiceItem(savedData = null) {
+  const container = document.getElementById('servicesContainer');
+  const item = document.createElement('div');
+  item.className = 'item-box service-item';
+  item.style.minWidth = '280px';
+  const iconPickerHTML = SERVICE_ICONS.map(ic => 
+    `<div class="icon-opt${ic==='fa-code'?' selected':''}" data-ic="${ic}" onclick="selectServiceIcon(this)"><i class="fas ${ic}"></i></div>`
   ).join('');
-  servicesContainer.innerHTML += `
-    <div class="item-box">
-      <div class="item-badge">S${i+1}</div>
-      <div class="form-group" style="margin-top:0.1rem;">
-        <label>Icon</label>
-        <input type="hidden" id="svcIcon${i}" value="fa-code">
-        <div class="icon-picker" id="iconPicker${i}">${iconPicker}</div>
-      </div>
-      <div class="form-group"><label>Title</label><input type="text" id="svcTitle${i}" placeholder="Service name"></div>
-      <div class="form-group"><label>Description</label><textarea id="svcDesc${i}" placeholder="Short service description..." style="min-height:68px;"></textarea></div>
-      <div class="form-group"><label>Link Text</label><input type="text" id="svcLink${i}" placeholder="Learn more"></div>
-    </div>`;
+  item.innerHTML = `
+    <div class="item-badge" style="cursor:pointer;" onclick="this.closest('.service-item').remove()">✕</div>
+    <div class="form-group" style="margin-top:0.1rem;">
+      <label>Icon</label>
+      <input type="hidden" class="svc-icon" value="fa-code">
+      <div class="icon-picker">${iconPickerHTML}</div>
+    </div>
+    <div class="form-group"><label>Title</label><input type="text" class="svc-title" placeholder="Service name" value="${savedData ? savedData.title || '' : ''}"></div>
+    <div class="form-group"><label>Description</label><textarea class="svc-desc" placeholder="Short service description..." style="min-height:68px;">${savedData ? savedData.desc || '' : ''}</textarea></div>
+    <div class="form-group"><label>Link Text</label><input type="text" class="svc-link" placeholder="Learn more" value="${savedData ? savedData.link || '' : ''}"></div>
+  `;
+  container.appendChild(item);
 }
-function selectIcon(el, index) {
-  document.querySelectorAll(`#iconPicker${index} .icon-opt`).forEach(o => o.classList.remove('selected'));
+function selectServiceIcon(el) {
+  const picker = el.closest('.icon-picker');
+  picker.querySelectorAll('.icon-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById(`svcIcon${index}`).value = el.getAttribute('data-ic');
+  const hidden = el.closest('.service-item').querySelector('.svc-icon');
+  hidden.value = el.getAttribute('data-ic');
 }
-// Build Shop
+function addNewService() {
+  createServiceItem();
+  const container = document.getElementById('servicesContainer');
+  container.scrollLeft = container.scrollWidth;
+}
+// Build Services (dynamic)
+const servicesContainer = document.getElementById('servicesContainer');
+// Build Shop (unchanged)
 const shopContainer = document.getElementById('shopContainer');
 for (let i = 0; i < 4; i++) {
   shopContainer.innerHTML += `
@@ -1030,7 +1020,7 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
     </div>`;
 }
-// Build Stats
+// Build Stats (unchanged)
 const statsContainer = document.getElementById('statsContainer');
 for (let i = 0; i < 3; i++) {
   statsContainer.innerHTML += `
@@ -1041,9 +1031,7 @@ for (let i = 0; i < 3; i++) {
       <div class="form-group"><label>Suffix (optional)</label><input type="text" id="statSuffix${i}" placeholder="e.g. % or +"></div>
     </div>`;
 }
-// ────────────────────────────────────────────────
-// Image Upload Function (used by hero, shop, and gallery)
-// ────────────────────────────────────────────────
+// Image Upload (unchanged)
 async function uploadImage(event, target) {
   const file = event.target.files[0];
   if (!file) return;
@@ -1087,9 +1075,7 @@ async function uploadImage(event, target) {
     }, 2200);
   }
 }
-// ────────────────────────────────────────────────
-// Gallery Functions
-// ────────────────────────────────────────────────
+// Gallery Functions (unchanged)
 async function uploadGalleryImages(event) {
   const files = Array.from(event.target.files);
   if (files.length === 0) return;
@@ -1167,12 +1153,80 @@ function deleteGalleryImage(url, btn) {
   setTimeout(() => item.remove(), 300);
   showToast('Image removed', 'success');
 }
-// NEW: Load Enquiries with unique codes
+// Load existing data
+db.ref('websiteContent').once('value').then(snap => {
+  const d = snap.val();
+  if (!d) return;
+  if (d.hero) {
+    document.getElementById('heroBadge').value = d.hero.badge || '';
+    document.getElementById('heroTitle').value = d.hero.title || '';
+    document.getElementById('heroDesc').value = d.hero.desc || '';
+    document.getElementById('heroBtn1').value = d.hero.btn1 || '';
+    document.getElementById('heroBtn2').value = d.hero.btn2 || '';
+    if (d.hero.background) {
+      document.getElementById('heroBgUrl').value = d.hero.background;
+      const prev = document.getElementById('heroBgPreview');
+      prev.src = d.hero.background;
+      prev.style.display = 'block';
+    }
+  }
+  // Dynamic Services Load
+  if (d.services && Array.isArray(d.services)) {
+    document.getElementById('servicesContainer').innerHTML = '';
+    d.services.forEach(svc => createServiceItem(svc));
+  } else {
+    // default 4 if none saved
+    for (let i = 0; i < 4; i++) createServiceItem();
+  }
+  if (d.shop) d.shop.forEach((item,i) => {
+    if (!document.getElementById(`shopTitle${i}`)) return;
+    document.getElementById(`shopTitle${i}`).value = item.title || '';
+    document.getElementById(`shopDesc${i}`).value = item.desc || '';
+    document.getElementById(`shopImgUrl${i}`).value = item.image || '';
+    if (item.image) {
+      const p=document.getElementById(`shopPreview${i}`);
+      p.src=item.image;
+      p.style.display='block';
+    }
+  });
+  if (d.gallery && Array.isArray(d.gallery)) {
+    galleryImages = [...d.gallery];
+    d.gallery.forEach(url => renderGalleryItem(url));
+  }
+  if (d.stats) d.stats.forEach((s,i) => {
+    if (!document.getElementById(`statNum${i}`)) return;
+    document.getElementById(`statNum${i}`).value = s.num || '';
+    document.getElementById(`statLabel${i}`).value = s.label || '';
+    document.getElementById(`statSuffix${i}`).value = s.suffix || '';
+    if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
+  });
+  if (d.footer) {
+    const f = d.footer;
+    document.getElementById('footerAbout').value = f.about || '';
+    document.getElementById('footerAddress').value = f.address || '';
+    document.getElementById('footerPhone').value = f.phone || '';
+    document.getElementById('footerEmail').value = f.email || '';
+    document.getElementById('footerHours').value = f.hours || '';
+    document.getElementById('socialFb').value = f.socialFb || '';
+    document.getElementById('socialTw').value = f.socialTw || '';
+    document.getElementById('socialLi').value = f.socialLi || '';
+    document.getElementById('socialIg').value = f.socialIg || '';
+    document.getElementById('footerCopyright').value = f.copyright || '';
+    document.getElementById('contactAddress').value = f.address || '';
+    document.getElementById('contactPhone').value = f.phone || '';
+    document.getElementById('contactEmail').value = f.email || '';
+    document.getElementById('contactHours').value = f.hours || '';
+    document.getElementById('contactFb').value = f.socialFb || '';
+    document.getElementById('contactTw').value = f.socialTw || '';
+    document.getElementById('contactLi').value = f.socialLi || '';
+    document.getElementById('contactIg').value = f.socialIg || '';
+  }
+});
+// Enquiries (unchanged)
 function loadEnquiries() {
   const tbody = document.getElementById('enquiriesBody');
   db.ref('mtech_contact_submissions').orderByChild('timestamp').on('value', snapshot => {
     tbody.innerHTML = '';
-    let count = 1;
     snapshot.forEach(child => {
       const data = child.val();
       const key = child.key;
@@ -1189,14 +1243,13 @@ function loadEnquiries() {
         <td><button class="btn-save" style="padding:0.4rem 0.8rem;font-size:0.75rem;" onclick="markEnquiryRead('${key}',this)">Mark Read</button></td>
       `;
       tbody.appendChild(row);
-      count++;
     });
     if (tbody.children.length === 0) {
       tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">No enquiries yet</td></tr>`;
     }
   });
 }
-// NEW: Save Contacts (updates footer node used by contact.html)
+// Save Section (only services part updated for dynamic)
 async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
@@ -1216,11 +1269,13 @@ async function saveSection(section, btn) {
     }
     if (section==='services') {
       patch.services = [];
-      for(let i=0;i<4;i++) patch.services.push({
-        icon: document.getElementById(`svcIcon${i}`).value,
-        title: document.getElementById(`svcTitle${i}`).value,
-        desc: document.getElementById(`svcDesc${i}`).value,
-        link: document.getElementById(`svcLink${i}`).value
+      document.querySelectorAll('#servicesContainer .service-item').forEach(item => {
+        patch.services.push({
+          icon: item.querySelector('.svc-icon').value,
+          title: item.querySelector('.svc-title').value,
+          desc: item.querySelector('.svc-desc').value,
+          link: item.querySelector('.svc-link').value
+        });
       });
     }
     if (section==='shop') {
@@ -1287,81 +1342,6 @@ async function saveSection(section, btn) {
     console.error(err);
   }
 }
-// Load existing data (existing + new contacts fields)
-db.ref('websiteContent').once('value').then(snap => {
-  const d = snap.val();
-  if (!d) return;
-  if (d.hero) {
-    document.getElementById('heroBadge').value = d.hero.badge || '';
-    document.getElementById('heroTitle').value = d.hero.title || '';
-    document.getElementById('heroDesc').value = d.hero.desc || '';
-    document.getElementById('heroBtn1').value = d.hero.btn1 || '';
-    document.getElementById('heroBtn2').value = d.hero.btn2 || '';
-    if (d.hero.background) {
-      document.getElementById('heroBgUrl').value = d.hero.background;
-      const prev = document.getElementById('heroBgPreview');
-      prev.src = d.hero.background;
-      prev.style.display = 'block';
-    }
-  }
-  if (d.services) d.services.forEach((svc,i) => {
-    if (!document.getElementById(`svcTitle${i}`)) return;
-    document.getElementById(`svcTitle${i}`).value = svc.title || '';
-    document.getElementById(`svcDesc${i}`).value = svc.desc || '';
-    document.getElementById(`svcLink${i}`).value = svc.link || '';
-    const icon = svc.icon || 'fa-code';
-    document.getElementById(`svcIcon${i}`).value = icon;
-    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o =>
-      o.classList.toggle('selected', o.getAttribute('data-ic')===icon)
-    );
-  });
-  if (d.shop) d.shop.forEach((item,i) => {
-    if (!document.getElementById(`shopTitle${i}`)) return;
-    document.getElementById(`shopTitle${i}`).value = item.title || '';
-    document.getElementById(`shopDesc${i}`).value = item.desc || '';
-    document.getElementById(`shopImgUrl${i}`).value = item.image || '';
-    if (item.image) {
-      const p=document.getElementById(`shopPreview${i}`);
-      p.src=item.image;
-      p.style.display='block';
-    }
-  });
-  if (d.gallery && Array.isArray(d.gallery)) {
-    galleryImages = [...d.gallery];
-    d.gallery.forEach(url => renderGalleryItem(url));
-  }
-  if (d.stats) d.stats.forEach((s,i) => {
-    if (!document.getElementById(`statNum${i}`)) return;
-    document.getElementById(`statNum${i}`).value = s.num || '';
-    document.getElementById(`statLabel${i}`).value = s.label || '';
-    document.getElementById(`statSuffix${i}`).value = s.suffix || '';
-    if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
-  });
-  if (d.footer) {
-    const f = d.footer;
-    document.getElementById('footerAbout').value = f.about || '';
-    document.getElementById('footerAddress').value = f.address || '';
-    document.getElementById('footerPhone').value = f.phone || '';
-    document.getElementById('footerEmail').value = f.email || '';
-    document.getElementById('footerHours').value = f.hours || '';
-    document.getElementById('socialFb').value = f.socialFb || '';
-    document.getElementById('socialTw').value = f.socialTw || '';
-    document.getElementById('socialLi').value = f.socialLi || '';
-    document.getElementById('socialIg').value = f.socialIg || '';
-    document.getElementById('footerCopyright').value = f.copyright || '';
-    // Also fill Contacts tab fields
-    document.getElementById('contactAddress').value = f.address || '';
-    document.getElementById('contactPhone').value = f.phone || '';
-    document.getElementById('contactEmail').value = f.email || '';
-    document.getElementById('contactHours').value = f.hours || '';
-    document.getElementById('contactFb').value = f.socialFb || '';
-    document.getElementById('contactTw').value = f.socialTw || '';
-    document.getElementById('contactLi').value = f.socialLi || '';
-    document.getElementById('contactIg').value = f.socialIg || '';
-  }
-});
-// Load enquiries on page load
-loadEnquiries();
 const BTN_LABELS = {
   hero:'Save Hero',
   services:'Save Services',
@@ -1371,6 +1351,8 @@ const BTN_LABELS = {
   footer:'Save Footer',
   contacts:'Save Contacts'
 };
+// Enquiries load
+loadEnquiries();
 </script>
 </body>
 </html>
