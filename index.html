@@ -8,19 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     :root {
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --primary-light: #60a5fa;
-      --primary-glow: rgba(59,130,246,0.25);
-      --primary-glow-sm: rgba(59,130,246,0.10);
+      --primary: #0404d8;
+      --primary-dark: #020084;
+      --primary-light: #4a4aff;
+      --primary-glow: rgba(4,4,216,0.25);
+      --primary-glow-sm: rgba(4,4,216,0.10);
       --bg: #07090f;
       --bg-2: #0c0f18;
       --surface: #10141f;
       --surface-2: #151a27;
       --surface-3: #1b2233;
       --border: rgba(255,255,255,0.055);
-      --border-hover: rgba(59,130,246,0.28);
-      --border-focus: rgba(59,130,246,0.55);
+      --border-hover: rgba(4,4,216,0.28);
+      --border-focus: rgba(4,4,216,0.55);
       --text: #e2e8f4;
       --text-muted:#6b7d94;
       --text-dim: #344056;
@@ -36,7 +36,6 @@
       --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     /* Light Mode Variables */
     [data-theme="light"] {
       --bg: #f8fafc;
@@ -45,13 +44,12 @@
       --surface-2: #f8fafc;
       --surface-3: #f1f5f9;
       --border: rgba(0,0,0,0.08);
-      --border-hover: rgba(59,130,246,0.4);
-      --border-focus: rgba(59,130,246,0.6);
+      --border-hover: rgba(4,4,216,0.4);
+      --border-focus: rgba(4,4,216,0.6);
       --text: #0f172a;
       --text-muted: #64748b;
       --text-dim: #94a3b8;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -460,7 +458,7 @@
     .btn-save.loading { opacity:0.6; pointer-events:none; }
     .btn-save.success { background:#15803d; box-shadow:0 4px 14px rgba(21,128,61,0.38); }
     .btn-save.error-state { background:#b91c1c; box-shadow:0 4px 14px rgba(185,28,28,0.38); }
-    
+   
     /* ── Gallery Specific Styles ── */
     .gallery-grid {
       display: grid;
@@ -669,7 +667,6 @@
     </div>
     <div class="live-chip"><div class="live-dot"></div>Firebase Connected</div>
   </div>
-
   <!-- HERO -->
   <section id="s-hero" class="card active">
     <div class="card-head">
@@ -695,7 +692,6 @@
         <div class="form-group"><label>Primary Button Text</label><input type="text" id="heroBtn1" placeholder="Get Started"></div>
         <div class="form-group"><label>Secondary Button Text</label><input type="text" id="heroBtn2" placeholder="Shop Hardware"></div>
       </div>
-
       <!-- Added: Hero Background Image Upload -->
       <div class="section-sub" style="margin-top:1.4rem;">Background Image</div>
       <div class="file-upload-wrapper">
@@ -710,7 +706,6 @@
       <button class="btn-save" onclick="saveSection('hero',this)"><i class="fas fa-cloud-upload-alt"></i> Save Hero</button>
     </div>
   </section>
-
   <!-- SERVICES -->
   <section id="s-services" class="card">
     <div class="card-head">
@@ -727,7 +722,6 @@
       <button class="btn-save" onclick="saveSection('services',this)"><i class="fas fa-cloud-upload-alt"></i> Save Services</button>
     </div>
   </section>
-
   <!-- SHOP -->
   <section id="s-shop" class="card">
     <div class="card-head">
@@ -744,7 +738,6 @@
       <button class="btn-save" onclick="saveSection('shop',this)"><i class="fas fa-cloud-upload-alt"></i> Save Products</button>
     </div>
   </section>
-
   <!-- GALLERY -->
   <section id="s-gallery" class="card">
     <div class="card-head">
@@ -768,7 +761,6 @@
       <button class="btn-save" onclick="saveSection('gallery',this)"><i class="fas fa-cloud-upload-alt"></i> Save Gallery</button>
     </div>
   </section>
-
   <!-- STATS -->
   <section id="s-stats" class="card">
     <div class="card-head">
@@ -785,7 +777,6 @@
       <button class="btn-save" onclick="saveSection('stats',this)"><i class="fas fa-cloud-upload-alt"></i> Save Stats</button>
     </div>
   </section>
-
   <!-- FOOTER -->
   <section id="s-footer" class="card">
     <div class="card-head">
@@ -830,16 +821,13 @@
     </div>
   </section>
 </main>
-
 <div id="toast">
   <div class="toast-ico"><i class="fas fa-check"></i></div>
   <span id="toast-msg">Saved!</span>
 </div>
-
 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
   <i class="fas fa-moon" id="themeIcon"></i>
 </button>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
@@ -854,19 +842,16 @@ const firebaseConfig = {
 };
 const CLOUD_NAME = "dv5bsbydu";
 const UPLOAD_PRESET = "admin_tlaka";
-
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 // Gallery images array (temporary storage before save)
 let galleryImages = [];
-
 // Theme Toggle
 function toggleTheme() {
   const body = document.body;
   const icon = document.getElementById('themeIcon');
   const currentTheme = body.getAttribute('data-theme');
-  
+ 
   if (currentTheme === 'light') {
     body.removeAttribute('data-theme');
     icon.className = 'fas fa-moon';
@@ -877,38 +862,33 @@ function toggleTheme() {
     localStorage.setItem('theme', 'light');
   }
 }
-
 // Load saved theme
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   document.body.setAttribute('data-theme', 'light');
   document.getElementById('themeIcon').className = 'fas fa-sun';
 }
-
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('open');
 }
-
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
-
 function setNav(el, sectionId) {
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
   el.classList.add('active');
-  
+ 
   document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-  
+ 
   const selectedCard = document.getElementById('s-' + sectionId);
   if (selectedCard) {
     selectedCard.classList.add('active');
   }
-  
+ 
   if (window.innerWidth <= 1024) closeSidebar();
 }
-
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   const ico = t.querySelector('.toast-ico i');
@@ -918,13 +898,11 @@ function showToast(msg, type = 'success') {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3200);
 }
-
 const SERVICE_ICONS = [
   'fa-code','fa-globe','fa-shield-alt','fa-cloud',
   'fa-laptop','fa-server','fa-network-wired','fa-database',
   'fa-mobile-alt','fa-cogs','fa-headset','fa-chart-line'
 ];
-
 // Build Services
 const servicesContainer = document.getElementById('servicesContainer');
 for (let i = 0; i < 4; i++) {
@@ -944,13 +922,11 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Link Text</label><input type="text" id="svcLink${i}" placeholder="Learn more"></div>
     </div>`;
 }
-
 function selectIcon(el, index) {
   document.querySelectorAll(`#iconPicker${index} .icon-opt`).forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById(`svcIcon${index}`).value = el.getAttribute('data-ic');
 }
-
 // Build Shop
 const shopContainer = document.getElementById('shopContainer');
 for (let i = 0; i < 4; i++) {
@@ -967,7 +943,6 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
     </div>`;
 }
-
 // Build Stats
 const statsContainer = document.getElementById('statsContainer');
 for (let i = 0; i < 3; i++) {
@@ -979,16 +954,13 @@ for (let i = 0; i < 3; i++) {
       <div class="form-group"><label>Suffix (optional)</label><input type="text" id="statSuffix${i}" placeholder="e.g. % or +"></div>
     </div>`;
 }
-
 // ────────────────────────────────────────────────
 // Image Upload Function (used by hero, shop, and gallery)
 // ────────────────────────────────────────────────
 async function uploadImage(event, target) {
   const file = event.target.files[0];
   if (!file) return;
-
   let label, preview, urlInput;
-
   if (target === 'heroBg') {
     label = document.getElementById('heroBgLabel');
     preview = document.getElementById('heroBgPreview');
@@ -999,13 +971,10 @@ async function uploadImage(event, target) {
     preview = document.getElementById(`shopPreview${target}`);
     urlInput = document.getElementById(`shopImgUrl${target}`);
   }
-
   label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-
   const fd = new FormData();
   fd.append('file', file);
   fd.append('upload_preset', UPLOAD_PRESET);
-
   try {
     const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
       method: 'POST',
@@ -1013,14 +982,12 @@ async function uploadImage(event, target) {
     });
     const data = await res.json();
     if (!data.secure_url) throw new Error("No secure_url returned");
-
     urlInput.value = data.secure_url;
     preview.src = data.secure_url;
     preview.style.display = 'block';
-
     label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
     setTimeout(() => {
-      label.innerHTML = target === 'heroBg' 
+      label.innerHTML = target === 'heroBg'
         ? '<i class="fas fa-image"></i> Change Background Image'
         : '<i class="fas fa-image"></i> Change Image';
     }, 2200);
@@ -1028,22 +995,20 @@ async function uploadImage(event, target) {
     console.error(e);
     label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed';
     setTimeout(() => {
-      label.innerHTML = target === 'heroBg' 
+      label.innerHTML = target === 'heroBg'
         ? '<i class="fas fa-image"></i> Upload Background Image'
         : '<i class="fas fa-image"></i> Upload Image';
     }, 2200);
   }
 }
-
 // ────────────────────────────────────────────────
 // Gallery Functions
 // ────────────────────────────────────────────────
 async function uploadGalleryImages(event) {
   const files = Array.from(event.target.files);
   if (files.length === 0) return;
-
   const container = document.getElementById('galleryContainer');
-  
+ 
   for (const file of files) {
     // Create temporary loading item
     const tempId = 'temp_' + Date.now() + Math.random();
@@ -1056,18 +1021,16 @@ async function uploadGalleryImages(event) {
       </div>
     `;
     container.insertBefore(tempItem, container.lastElementChild);
-
     const fd = new FormData();
     fd.append('file', file);
     fd.append('upload_preset', UPLOAD_PRESET);
-
     try {
       const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
         method: 'POST',
         body: fd
       });
       const data = await res.json();
-      
+     
       if (data.secure_url) {
         galleryImages.push(data.secure_url);
         renderGalleryItem(data.secure_url, tempId);
@@ -1081,17 +1044,16 @@ async function uploadGalleryImages(event) {
       showToast('Upload failed', 'error');
     }
   }
-  
+ 
   // Reset input
   event.target.value = '';
 }
-
 function renderGalleryItem(url, replaceId = null) {
   const container = document.getElementById('galleryContainer');
   const item = document.createElement('div');
   item.className = 'gallery-item';
   item.dataset.url = url;
-  
+ 
   item.innerHTML = `
     <img src="${url}" alt="Gallery Image">
     <div class="gallery-item-overlay">
@@ -1105,7 +1067,7 @@ function renderGalleryItem(url, replaceId = null) {
       </div>
     </div>
   `;
-  
+ 
   if (replaceId) {
     const oldItem = document.getElementById(replaceId);
     if (oldItem) oldItem.replaceWith(item);
@@ -1113,34 +1075,30 @@ function renderGalleryItem(url, replaceId = null) {
     container.insertBefore(item, container.lastElementChild);
   }
 }
-
 function copyImageUrl(url) {
   navigator.clipboard.writeText(url).then(() => {
     showToast('URL copied to clipboard!', 'success');
   });
 }
-
 function deleteGalleryImage(url, btn) {
   if (!confirm('Delete this image?')) return;
-  
+ 
   // Remove from array
   galleryImages = galleryImages.filter(img => img !== url);
-  
+ 
   // Remove from DOM
   const item = btn.closest('.gallery-item');
   item.style.transform = 'scale(0)';
   setTimeout(() => item.remove(), 300);
-  
+ 
   showToast('Image removed', 'success');
 }
-
 // ────────────────────────────────────────────────
 // Load existing data
 // ────────────────────────────────────────────────
 db.ref('websiteContent').once('value').then(snap => {
   const d = snap.val();
   if (!d) return;
-
   if (d.hero) {
     document.getElementById('heroBadge').value = d.hero.badge || '';
     document.getElementById('heroTitle').value = d.hero.title || '';
@@ -1154,7 +1112,6 @@ db.ref('websiteContent').once('value').then(snap => {
       prev.style.display = 'block';
     }
   }
-
   if (d.services) d.services.forEach((svc,i) => {
     if (!document.getElementById(`svcTitle${i}`)) return;
     document.getElementById(`svcTitle${i}`).value = svc.title || '';
@@ -1162,29 +1119,26 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById(`svcLink${i}`).value = svc.link || '';
     const icon = svc.icon || 'fa-code';
     document.getElementById(`svcIcon${i}`).value = icon;
-    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o => 
+    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o =>
       o.classList.toggle('selected', o.getAttribute('data-ic')===icon)
     );
   });
-
   if (d.shop) d.shop.forEach((item,i) => {
     if (!document.getElementById(`shopTitle${i}`)) return;
     document.getElementById(`shopTitle${i}`).value = item.title || '';
     document.getElementById(`shopDesc${i}`).value = item.desc || '';
     document.getElementById(`shopImgUrl${i}`).value = item.image || '';
-    if (item.image) { 
-      const p=document.getElementById(`shopPreview${i}`); 
-      p.src=item.image; 
-      p.style.display='block'; 
+    if (item.image) {
+      const p=document.getElementById(`shopPreview${i}`);
+      p.src=item.image;
+      p.style.display='block';
     }
   });
-
   // Load Gallery
   if (d.gallery && Array.isArray(d.gallery)) {
     galleryImages = [...d.gallery];
     d.gallery.forEach(url => renderGalleryItem(url));
   }
-
   if (d.stats) d.stats.forEach((s,i) => {
     if (!document.getElementById(`statNum${i}`)) return;
     document.getElementById(`statNum${i}`).value = s.num || '';
@@ -1192,7 +1146,6 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById(`statSuffix${i}`).value = s.suffix || '';
     if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
   });
-
   if (d.footer) {
     const f = d.footer;
     document.getElementById('footerAbout').value = f.about || '';
@@ -1207,7 +1160,6 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById('footerCopyright').value = f.copyright || '';
   }
 });
-
 const BTN_LABELS = {
   hero:'Save Hero',
   services:'Save Services',
@@ -1216,16 +1168,13 @@ const BTN_LABELS = {
   stats:'Save Stats',
   footer:'Save Footer'
 };
-
 async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
   try {
     const snap = await db.ref('websiteContent').once('value');
     const existing = snap.val() || {};
     let patch = {};
-
     if (section==='hero') {
       patch.hero = {
         badge: document.getElementById('heroBadge').value,
@@ -1236,7 +1185,6 @@ async function saveSection(section, btn) {
         background: document.getElementById('heroBgUrl').value.trim() || (existing.hero?.background || '')
       };
     }
-
     if (section==='services') {
       patch.services = [];
       for(let i=0;i<4;i++) patch.services.push({
@@ -1246,7 +1194,6 @@ async function saveSection(section, btn) {
         link: document.getElementById(`svcLink${i}`).value
       });
     }
-
     if (section==='shop') {
       patch.shop = [];
       for(let i=0;i<4;i++) patch.shop.push({
@@ -1255,11 +1202,9 @@ async function saveSection(section, btn) {
         image: document.getElementById(`shopImgUrl${i}`).value
       });
     }
-
     if (section==='gallery') {
       patch.gallery = galleryImages;
     }
-
     if (section==='stats') {
       patch.stats = [];
       for(let i=0;i<3;i++) patch.stats.push({
@@ -1268,7 +1213,6 @@ async function saveSection(section, btn) {
         suffix: document.getElementById(`statSuffix${i}`).value
       });
     }
-
     if (section==='footer') patch.footer = {
       about: document.getElementById('footerAbout').value,
       address: document.getElementById('footerAddress').value,
@@ -1281,19 +1225,15 @@ async function saveSection(section, btn) {
       socialIg: document.getElementById('socialIg').value,
       copyright: document.getElementById('footerCopyright').value
     };
-
     await db.ref('websiteContent').set({...existing, ...patch});
-
     btn.classList.remove('loading');
     btn.classList.add('success');
     btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
     showToast(`${section.charAt(0).toUpperCase()+section.slice(1)} saved successfully!`,'success');
-
     setTimeout(() => {
       btn.classList.remove('success');
       btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${BTN_LABELS[section]}`;
     }, 2600);
-
   } catch(err) {
     btn.classList.remove('loading');
     btn.classList.add('error-state');
