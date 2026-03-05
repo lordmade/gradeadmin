@@ -36,7 +36,6 @@
       --ease: cubic-bezier(0.165, 0.84, 0.44, 1);
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     /* Light Mode Variables */
     [data-theme="light"] {
       --bg: #f8fafc;
@@ -51,7 +50,6 @@
       --text-muted: #64748b;
       --text-dim: #94a3b8;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -554,6 +552,9 @@
     <a href="#s-footer" onclick="setNav(this, 'footer')">
       <div class="nav-ico"><i class="fas fa-layer-group"></i></div><span>Footer</span>
     </a>
+    <a href="#s-contacts" onclick="setNav(this, 'contacts')">
+      <div class="nav-ico"><i class="fas fa-envelope"></i></div><span>Contact Page</span>
+    </a>
     <div class="nav-divider"></div>
     <div class="sidebar-section-label">System</div>
     <a href="#" onclick="window.location.reload();return false;">
@@ -580,7 +581,6 @@
     </div>
     <div class="live-chip"><div class="live-dot"></div>Firebase Connected</div>
   </div>
-
   <!-- HERO -->
   <section id="s-hero" class="card active">
     <div class="card-head">
@@ -606,7 +606,6 @@
         <div class="form-group"><label>Primary Button Text</label><input type="text" id="heroBtn1" placeholder="Get Started"></div>
         <div class="form-group"><label>Secondary Button Text</label><input type="text" id="heroBtn2" placeholder="Shop Hardware"></div>
       </div>
-
       <!-- Added: Hero Background Image Upload -->
       <div class="section-sub" style="margin-top:1.4rem;">Background Image</div>
       <div class="file-upload-wrapper">
@@ -621,7 +620,6 @@
       <button class="btn-save" onclick="saveSection('hero',this)"><i class="fas fa-cloud-upload-alt"></i> Save Hero</button>
     </div>
   </section>
-
   <!-- SERVICES -->
   <section id="s-services" class="card">
     <div class="card-head">
@@ -638,7 +636,6 @@
       <button class="btn-save" onclick="saveSection('services',this)"><i class="fas fa-cloud-upload-alt"></i> Save Services</button>
     </div>
   </section>
-
   <!-- SHOP -->
   <section id="s-shop" class="card">
     <div class="card-head">
@@ -655,7 +652,6 @@
       <button class="btn-save" onclick="saveSection('shop',this)"><i class="fas fa-cloud-upload-alt"></i> Save Products</button>
     </div>
   </section>
-
   <!-- STATS -->
   <section id="s-stats" class="card">
     <div class="card-head">
@@ -672,7 +668,6 @@
       <button class="btn-save" onclick="saveSection('stats',this)"><i class="fas fa-cloud-upload-alt"></i> Save Stats</button>
     </div>
   </section>
-
   <!-- FOOTER -->
   <section id="s-footer" class="card">
     <div class="card-head">
@@ -716,17 +711,66 @@
       <button class="btn-save" onclick="saveSection('footer',this)"><i class="fas fa-cloud-upload-alt"></i> Save Footer</button>
     </div>
   </section>
-</main>
+  <!-- CONTACT PAGE -->
+  <section id="s-contacts" class="card">
+    <div class="card-head">
+      <div class="card-head-left">
+        <div class="card-ico ico-purple"><i class="fas fa-envelope"></i></div>
+        <div><div class="card-title">Contact Page</div><div class="card-subtitle">Hero, contact block & map — changes appear live on contact.html</div></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="section-sub">Contact Hero Section</div>
+      <div class="form-group">
+        <label>Badge Text</label>
+        <input type="text" id="contactBadge" placeholder="Get in Touch">
+      </div>
+      <div class="form-group">
+        <label>Main Title</label>
+        <input type="text" id="contactTitle" placeholder="Let's Start Your Project">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="contactDesc" placeholder="Tell us about your idea, challenge or goal — whether it's custom software, better security, cloud migration or premium hardware."></textarea>
+      </div>
 
+      <div class="section-sub">Contact Info Block</div>
+      <div class="form-group">
+        <label>Section Heading (h3)</label>
+        <input type="text" id="contactInfoTitle" placeholder="Reach Out Today">
+      </div>
+      <div class="form-group">
+        <label>Response Time Text</label>
+        <input type="text" id="contactResponse" placeholder="Our team typically responds within 4–12 hours during business days.">
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Address</label><input type="text" id="contactAddress" placeholder="Mokopane, Limpopo, South Africa"></div>
+        <div class="form-group"><label>Phone</label><input type="text" id="contactPhone" placeholder="+27 (0) 15 123 4567"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input type="text" id="contactEmail" placeholder="info@mtechsolutions.com"></div>
+        <div class="form-group"><label>Office Hours</label><input type="text" id="contactHours" placeholder="Mon – Fri: 08:00 – 17:00"></div>
+      </div>
+
+      <div class="section-sub">Google Maps Embed</div>
+      <div class="form-group">
+        <label>Embed URL (full iframe src)</label>
+        <input type="text" id="contactMapUrl" placeholder="https://www.google.com/maps/embed?pb=...">
+      </div>
+    </div>
+    <div class="card-foot">
+      <span class="foot-hint"><i class="fas fa-info-circle"></i> Updates everything on the contact page in real-time</span>
+      <button class="btn-save" onclick="saveSection('contacts',this)"><i class="fas fa-cloud-upload-alt"></i> Save Contact Page</button>
+    </div>
+  </section>
+</main>
 <div id="toast">
   <div class="toast-ico"><i class="fas fa-check"></i></div>
   <span id="toast-msg">Saved!</span>
 </div>
-
 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
   <i class="fas fa-moon" id="themeIcon"></i>
 </button>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
@@ -741,16 +785,14 @@ const firebaseConfig = {
 };
 const CLOUD_NAME = "dv5bsbydu";
 const UPLOAD_PRESET = "admin_tlaka";
-
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 // Theme Toggle
 function toggleTheme() {
   const body = document.body;
   const icon = document.getElementById('themeIcon');
   const currentTheme = body.getAttribute('data-theme');
-  
+ 
   if (currentTheme === 'light') {
     body.removeAttribute('data-theme');
     icon.className = 'fas fa-moon';
@@ -761,42 +803,37 @@ function toggleTheme() {
     localStorage.setItem('theme', 'light');
   }
 }
-
 // Load saved theme
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   document.body.setAttribute('data-theme', 'light');
   document.getElementById('themeIcon').className = 'fas fa-sun';
 }
-
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('open');
 }
-
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
-
 function setNav(el, sectionId) {
   // Remove active from all nav items
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
   // Add active to clicked item
   el.classList.add('active');
-  
+ 
   // Hide all cards
   document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-  
+ 
   // Show selected card
   const selectedCard = document.getElementById('s-' + sectionId);
   if (selectedCard) {
     selectedCard.classList.add('active');
   }
-  
+ 
   if (window.innerWidth <= 1024) closeSidebar();
 }
-
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   const ico = t.querySelector('.toast-ico i');
@@ -806,13 +843,11 @@ function showToast(msg, type = 'success') {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3200);
 }
-
 const SERVICE_ICONS = [
   'fa-code','fa-globe','fa-shield-alt','fa-cloud',
   'fa-laptop','fa-server','fa-network-wired','fa-database',
   'fa-mobile-alt','fa-cogs','fa-headset','fa-chart-line'
 ];
-
 // Build Services
 const servicesContainer = document.getElementById('servicesContainer');
 for (let i = 0; i < 4; i++) {
@@ -832,13 +867,11 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Link Text</label><input type="text" id="svcLink${i}" placeholder="Learn more"></div>
     </div>`;
 }
-
 function selectIcon(el, index) {
   document.querySelectorAll(`#iconPicker${index} .icon-opt`).forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById(`svcIcon${index}`).value = el.getAttribute('data-ic');
 }
-
 // Build Shop
 const shopContainer = document.getElementById('shopContainer');
 for (let i = 0; i < 4; i++) {
@@ -855,7 +888,6 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
     </div>`;
 }
-
 // Build Stats
 const statsContainer = document.getElementById('statsContainer');
 for (let i = 0; i < 3; i++) {
@@ -867,16 +899,13 @@ for (let i = 0; i < 3; i++) {
       <div class="form-group"><label>Suffix (optional)</label><input type="text" id="statSuffix${i}" placeholder="e.g. % or +"></div>
     </div>`;
 }
-
 // ────────────────────────────────────────────────
 // Image Upload Function (used by both hero and shop)
 // ────────────────────────────────────────────────
 async function uploadImage(event, target) {
   const file = event.target.files[0];
   if (!file) return;
-
   let label, preview, urlInput;
-
   if (target === 'heroBg') {
     label = document.getElementById('heroBgLabel');
     preview = document.getElementById('heroBgPreview');
@@ -887,13 +916,10 @@ async function uploadImage(event, target) {
     preview = document.getElementById(`shopPreview${target}`);
     urlInput = document.getElementById(`shopImgUrl${target}`);
   }
-
   label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-
   const fd = new FormData();
   fd.append('file', file);
   fd.append('upload_preset', UPLOAD_PRESET);
-
   try {
     const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
       method: 'POST',
@@ -901,14 +927,12 @@ async function uploadImage(event, target) {
     });
     const data = await res.json();
     if (!data.secure_url) throw new Error("No secure_url returned");
-
     urlInput.value = data.secure_url;
     preview.src = data.secure_url;
     preview.style.display = 'block';
-
     label.innerHTML = '<i class="fas fa-check"></i> Uploaded!';
     setTimeout(() => {
-      label.innerHTML = target === 'heroBg' 
+      label.innerHTML = target === 'heroBg'
         ? '<i class="fas fa-image"></i> Change Background Image'
         : '<i class="fas fa-image"></i> Change Image';
     }, 2200);
@@ -916,20 +940,18 @@ async function uploadImage(event, target) {
     console.error(e);
     label.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed';
     setTimeout(() => {
-      label.innerHTML = target === 'heroBg' 
+      label.innerHTML = target === 'heroBg'
         ? '<i class="fas fa-image"></i> Upload Background Image'
         : '<i class="fas fa-image"></i> Upload Image';
     }, 2200);
   }
 }
-
 // ────────────────────────────────────────────────
 // Load existing data
 // ────────────────────────────────────────────────
 db.ref('websiteContent').once('value').then(snap => {
   const d = snap.val();
   if (!d) return;
-
   if (d.hero) {
     document.getElementById('heroBadge').value = d.hero.badge || '';
     document.getElementById('heroTitle').value = d.hero.title || '';
@@ -943,7 +965,6 @@ db.ref('websiteContent').once('value').then(snap => {
       prev.style.display = 'block';
     }
   }
-
   if (d.services) d.services.forEach((svc,i) => {
     if (!document.getElementById(`svcTitle${i}`)) return;
     document.getElementById(`svcTitle${i}`).value = svc.title || '';
@@ -951,23 +972,21 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById(`svcLink${i}`).value = svc.link || '';
     const icon = svc.icon || 'fa-code';
     document.getElementById(`svcIcon${i}`).value = icon;
-    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o => 
+    document.querySelectorAll(`#iconPicker${i} .icon-opt`).forEach(o =>
       o.classList.toggle('selected', o.getAttribute('data-ic')===icon)
     );
   });
-
   if (d.shop) d.shop.forEach((item,i) => {
     if (!document.getElementById(`shopTitle${i}`)) return;
     document.getElementById(`shopTitle${i}`).value = item.title || '';
     document.getElementById(`shopDesc${i}`).value = item.desc || '';
     document.getElementById(`shopImgUrl${i}`).value = item.image || '';
-    if (item.image) { 
-      const p=document.getElementById(`shopPreview${i}`); 
-      p.src=item.image; 
-      p.style.display='block'; 
+    if (item.image) {
+      const p=document.getElementById(`shopPreview${i}`);
+      p.src=item.image;
+      p.style.display='block';
     }
   });
-
   if (d.stats) d.stats.forEach((s,i) => {
     if (!document.getElementById(`statNum${i}`)) return;
     document.getElementById(`statNum${i}`).value = s.num || '';
@@ -975,7 +994,6 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById(`statSuffix${i}`).value = s.suffix || '';
     if (s.num) document.getElementById(`statPrev${i}`).textContent = s.num;
   });
-
   if (d.footer) {
     const f = d.footer;
     document.getElementById('footerAbout').value = f.about || '';
@@ -989,25 +1007,36 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById('socialIg').value = f.socialIg || '';
     document.getElementById('footerCopyright').value = f.copyright || '';
   }
+  // NEW: Load Contact Page data
+  if (d.contact) {
+    const c = d.contact;
+    document.getElementById('contactBadge').value = c.badge || '';
+    document.getElementById('contactTitle').value = c.title || '';
+    document.getElementById('contactDesc').value = c.desc || '';
+    document.getElementById('contactInfoTitle').value = c.infoTitle || '';
+    document.getElementById('contactResponse').value = c.response || '';
+    document.getElementById('contactAddress').value = c.address || '';
+    document.getElementById('contactPhone').value = c.phone || '';
+    document.getElementById('contactEmail').value = c.email || '';
+    document.getElementById('contactHours').value = c.hours || '';
+    document.getElementById('contactMapUrl').value = c.mapUrl || '';
+  }
 });
-
 const BTN_LABELS = {
   hero:'Save Hero',
   services:'Save Services',
   shop:'Save Products',
   stats:'Save Stats',
-  footer:'Save Footer'
+  footer:'Save Footer',
+  contacts:'Save Contact Page'
 };
-
 async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
   try {
     const snap = await db.ref('websiteContent').once('value');
     const existing = snap.val() || {};
     let patch = {};
-
     if (section==='hero') {
       patch.hero = {
         badge: document.getElementById('heroBadge').value,
@@ -1018,7 +1047,6 @@ async function saveSection(section, btn) {
         background: document.getElementById('heroBgUrl').value.trim() || (existing.hero?.background || '')
       };
     }
-
     if (section==='services') {
       patch.services = [];
       for(let i=0;i<4;i++) patch.services.push({
@@ -1028,7 +1056,6 @@ async function saveSection(section, btn) {
         link: document.getElementById(`svcLink${i}`).value
       });
     }
-
     if (section==='shop') {
       patch.shop = [];
       for(let i=0;i<4;i++) patch.shop.push({
@@ -1037,7 +1064,6 @@ async function saveSection(section, btn) {
         image: document.getElementById(`shopImgUrl${i}`).value
       });
     }
-
     if (section==='stats') {
       patch.stats = [];
       for(let i=0;i<3;i++) patch.stats.push({
@@ -1046,7 +1072,6 @@ async function saveSection(section, btn) {
         suffix: document.getElementById(`statSuffix${i}`).value
       });
     }
-
     if (section==='footer') patch.footer = {
       about: document.getElementById('footerAbout').value,
       address: document.getElementById('footerAddress').value,
@@ -1059,19 +1084,30 @@ async function saveSection(section, btn) {
       socialIg: document.getElementById('socialIg').value,
       copyright: document.getElementById('footerCopyright').value
     };
-
+    // NEW: Save Contact Page
+    if (section==='contacts') {
+      patch.contact = {
+        badge: document.getElementById('contactBadge').value,
+        title: document.getElementById('contactTitle').value,
+        desc: document.getElementById('contactDesc').value,
+        infoTitle: document.getElementById('contactInfoTitle').value,
+        response: document.getElementById('contactResponse').value,
+        address: document.getElementById('contactAddress').value,
+        phone: document.getElementById('contactPhone').value,
+        email: document.getElementById('contactEmail').value,
+        hours: document.getElementById('contactHours').value,
+        mapUrl: document.getElementById('contactMapUrl').value
+      };
+    }
     await db.ref('websiteContent').set({...existing, ...patch});
-
     btn.classList.remove('loading');
     btn.classList.add('success');
     btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
     showToast(`${section.charAt(0).toUpperCase()+section.slice(1)} saved successfully!`,'success');
-
     setTimeout(() => {
       btn.classList.remove('success');
       btn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ${BTN_LABELS[section]}`;
     }, 2600);
-
   } catch(err) {
     btn.classList.remove('loading');
     btn.classList.add('error-state');
