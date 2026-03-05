@@ -540,27 +540,6 @@
       font-size: 2rem;
       margin-bottom: 0.5rem;
     }
-    /* Services Horizontal Scroll with visible scrollbar */
-    #servicesContainer {
-      display: flex;
-      overflow-x: auto;
-      gap: 1.1rem;
-      padding-bottom: 1rem;
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary) var(--surface-2);
-    }
-    #servicesContainer::-webkit-scrollbar {
-      height: 8px;
-    }
-    #servicesContainer::-webkit-scrollbar-track {
-      background: var(--surface-2);
-      border-radius: 4px;
-    }
-    #servicesContainer::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
     /* ══════════════════════════
        TOAST
     ══════════════════════════ */
@@ -739,7 +718,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div id="servicesContainer"></div>
+      <div class="grid-2" id="servicesContainer"></div>
       <button onclick="addNewService()" class="btn-save" style="margin-top:1.5rem;width:fit-content;">+ Add New Service</button>
     </div>
     <div class="card-foot">
