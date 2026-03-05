@@ -540,16 +540,22 @@
       font-size: 2rem;
       margin-bottom: 0.5rem;
     }
-    /* Services Horizontal Scroll */
+    /* Services Horizontal Scroll with visible scrollbar */
     #servicesContainer {
       display: flex;
       overflow-x: auto;
       gap: 1.1rem;
       padding-bottom: 1rem;
       scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) var(--surface-2);
     }
     #servicesContainer::-webkit-scrollbar {
       height: 8px;
+    }
+    #servicesContainer::-webkit-scrollbar-track {
+      background: var(--surface-2);
+      border-radius: 4px;
     }
     #servicesContainer::-webkit-scrollbar-thumb {
       background: var(--primary);
@@ -1004,7 +1010,7 @@ function addNewService() {
 }
 // Build Services (dynamic)
 const servicesContainer = document.getElementById('servicesContainer');
-// Build Shop (unchanged)
+// Build Shop
 const shopContainer = document.getElementById('shopContainer');
 for (let i = 0; i < 4; i++) {
   shopContainer.innerHTML += `
@@ -1020,7 +1026,7 @@ for (let i = 0; i < 4; i++) {
       <div class="form-group"><label>Description</label><input type="text" id="shopDesc${i}" placeholder="Short description"></div>
     </div>`;
 }
-// Build Stats (unchanged)
+// Build Stats
 const statsContainer = document.getElementById('statsContainer');
 for (let i = 0; i < 3; i++) {
   statsContainer.innerHTML += `
@@ -1031,7 +1037,7 @@ for (let i = 0; i < 3; i++) {
       <div class="form-group"><label>Suffix (optional)</label><input type="text" id="statSuffix${i}" placeholder="e.g. % or +"></div>
     </div>`;
 }
-// Image Upload (unchanged)
+// Image Upload
 async function uploadImage(event, target) {
   const file = event.target.files[0];
   if (!file) return;
@@ -1075,7 +1081,7 @@ async function uploadImage(event, target) {
     }, 2200);
   }
 }
-// Gallery Functions (unchanged)
+// Gallery Functions
 async function uploadGalleryImages(event) {
   const files = Array.from(event.target.files);
   if (files.length === 0) return;
@@ -1175,7 +1181,6 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById('servicesContainer').innerHTML = '';
     d.services.forEach(svc => createServiceItem(svc));
   } else {
-    // default 4 if none saved
     for (let i = 0; i < 4; i++) createServiceItem();
   }
   if (d.shop) d.shop.forEach((item,i) => {
@@ -1222,7 +1227,7 @@ db.ref('websiteContent').once('value').then(snap => {
     document.getElementById('contactIg').value = f.socialIg || '';
   }
 });
-// Enquiries (unchanged)
+// Enquiries
 function loadEnquiries() {
   const tbody = document.getElementById('enquiriesBody');
   db.ref('mtech_contact_submissions').orderByChild('timestamp').on('value', snapshot => {
@@ -1249,7 +1254,6 @@ function loadEnquiries() {
     }
   });
 }
-// Save Section (only services part updated for dynamic)
 async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
@@ -1351,7 +1355,6 @@ const BTN_LABELS = {
   footer:'Save Footer',
   contacts:'Save Contacts'
 };
-// Enquiries load
 loadEnquiries();
 </script>
 </body>
