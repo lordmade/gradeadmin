@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-  <title>MTech Solutions | Admin Dashboard</title>
+  <title>Rare Grade Tech | Admin Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -1649,9 +1649,9 @@ async function saveShopNow(btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing…';
   try {
-    /* Write directly to the shop sub-path.
-       The frontend real-time listener fires immediately. */
-    await db.ref('websiteContent/shop').set(shopProducts.map(p => ({...p})));
+    /* Use update() at root so this never conflicts with other section saves.
+       The frontend real-time listener on websiteContent/shop fires immediately. */
+    await db.ref('websiteContent').update({ shop: shopProducts.map(p => ({...p})) });
     btn.classList.remove('loading'); btn.classList.add('success');
     btn.innerHTML = '<i class="fas fa-check"></i> Published Live!';
     showToast('Shop published live! Users see updates instantly ⚡','success');
@@ -2023,8 +2023,6 @@ async function saveSection(section, btn) {
   btn.classList.add('loading');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
   try {
-    const snap     = await db.ref('websiteContent').once('value');
-    const existing = snap.val() || {};
     let patch = {};
 
     if (section === 'hero') patch.hero = {
@@ -2033,7 +2031,7 @@ async function saveSection(section, btn) {
       desc:       document.getElementById('heroDesc').value,
       btn1:       document.getElementById('heroBtn1').value,
       btn2:       document.getElementById('heroBtn2').value,
-      background: document.getElementById('heroBgUrl').value.trim() || (existing.hero?.background || '')
+      background: document.getElementById('heroBgUrl').value.trim() || ''
     };
 
     if (section === 'services') {
@@ -2083,7 +2081,7 @@ async function saveSection(section, btn) {
       socialIg: document.getElementById('contactIg').value
     };
 
-    await db.ref('websiteContent').set({...existing, ...patch});
+    await db.ref('websiteContent').update(patch);
     btn.classList.remove('loading'); btn.classList.add('success');
     btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
     showToast(`${section.charAt(0).toUpperCase()+section.slice(1)} saved!`, 'success');
